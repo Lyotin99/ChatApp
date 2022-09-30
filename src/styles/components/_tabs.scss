@@ -1,0 +1,31 @@
+.tabs {
+    background: $c-white;
+    padding: 2rem;
+    border-radius: 1.2rem;
+
+    .react-tabs__tab--selected {
+        background-color: $c-secondary;
+        color: $c-white;
+    }
+
+    .tabs__nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        list-style: none;
+    }
+
+    .tabs__nav li {
+        padding: 1rem;
+        border-radius: 1.2rem;
+        cursor: pointer;
+        transition: background .4s, color .4s;
+        width: 50%;
+        text-align: center;
+
+        &:hover {
+            background: $c-secondary;
+            color: $c-white;
+        }
+    }
+}

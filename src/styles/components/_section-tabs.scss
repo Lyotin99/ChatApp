@@ -1,0 +1,26 @@
+.section-tabs {
+    background-color: $c-secondary;
+    padding: 4rem 0;
+    min-height: 100vh;
+
+    .section__inner {
+        max-width: 80rem;
+        margin: 0 auto;
+    }
+
+    .section__head {
+        text-align: center;
+        background-color: $c-white;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        border-radius: 1.2rem;
+    }
+
+    .section__body {
+        
+    }
+
+    h1 {
+
+    }
+}

@@ -1,0 +1,43 @@
+.form-login {
+    padding: 4rem;
+
+    .form__body {
+        padding-bottom: 0;
+    }
+
+    .form__row {
+        padding-bottom: 2rem;
+    }
+
+    .form__label {
+        padding-bottom: 1rem;
+    }
+
+    button {
+        margin-bottom: 2rem;
+
+        &:only-child {
+            margin-bottom: 0;
+        }
+    }
+    
+
+    label {
+        font-weight: 600;
+    }
+
+    input:not([type="file"]) {
+        border: 0;
+        border: .1rem solid $c-secondary;
+        padding: 0 1.5rem;
+        font-size: 1.8rem;
+        height: 4rem;
+        width: 100%;
+        border-radius: 1.2rem;
+        transition: border .4s;
+
+        &:focus {
+            border-color: $c-base;
+        }
+    }
+}

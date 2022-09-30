@@ -1,0 +1,28 @@
+.btn {
+    display: inline-block;
+    appearance: none;
+    background-color: $c-secondary;
+    font-weight: 600;
+    color: $c-white;
+    padding: 1.2rem 2rem;
+    border: .2rem solid transparent;
+    border-radius: 99em;
+    transition: background .4s, color .4s, border .4s;
+    width: 100%;
+
+    &:hover {
+        background: $c-white;
+        color: $c-secondary;
+        border-color: $c-secondary;
+    }
+}
+
+.btn.btn--orange {
+    background-color: $c-base;
+
+    &:hover {
+        background: $c-white;
+        color: $c-base;
+        border-color: $c-base;
+    }
+}
