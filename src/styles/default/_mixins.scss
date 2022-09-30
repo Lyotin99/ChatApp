@@ -1,0 +1,25 @@
+@import './variables.scss';
+
+@mixin breakpoint-down-mobile-small {
+	@media (max-width: $mobile-small) { @content; }
+}
+
+@mixin breakpoint-down-mobile-medium {
+	@media (max-width: $mobile-medium) { @content; }
+}
+
+@mixin breakpoint-down-mobile {
+	@media (max-width: $mobile) { @content; }
+}
+
+@mixin breakpoint-down-tablet {
+	@media (max-width: $tablet) { @content; }
+}
+
+@mixin breakpoint-down-small-desktop {
+	@media (max-width: $small-desktop) { @content; }
+}
+
+@mixin breakpoint-down-large-desktop {
+	@media (max-width: $large-desktop) { @content; }
+}
