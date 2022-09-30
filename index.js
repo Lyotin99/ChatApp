@@ -1,5 +1,6 @@
 import express from "express";
 import connectDb from "./connect/connectDb.js";
+import authRoute from "./routes/auth.js";
 import { config } from "dotenv";
 import { chats } from "./data/data.js";
 import cors from "cors";
@@ -9,6 +10,9 @@ config();
 
 //middlewares
 app.use(cors());
+app.use(express.json());
+
+app.use("/api/v1/auth", authRoute);
 
 app.get("/api/v1/chats", (req, res) => {
 	res.send(chats);
