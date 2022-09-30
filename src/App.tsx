@@ -5,15 +5,17 @@ import ChatPage from "./pages/ChatPage";
 
 function App() {
 	return (
-		<>
-			<div className="main">
-				<Routes>
-					<Route path="/" element={<Homepage />} />
+		<div className="wrapper">
+			<div className="wrapper__inner">
+				<div className="main">
+					<Routes>
+						<Route path="/" element={<Homepage />} />
 
-					<Route path="/chats" element={<ChatPage />} />
-				</Routes>
+						<Route path="/chats" element={<ChatPage />} />
+					</Routes>
+				</div>
 			</div>
-		</>
+		</div>
 	);
 }
 
