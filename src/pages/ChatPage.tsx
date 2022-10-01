@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
-
-const fetchChats = async () => {
-	try {
-		const data = await fetch("http://localhost:5000/api/v1/chats");
-		const res = await data.json();
-		return res;
-	} catch (e) {
-		console.log(e);
-	}
-};
+import { useAuthContext } from "../context/AuthContext";
+import { fetchChats } from "../services/ChatServices";
 
 interface Users {
 	name: string;
@@ -24,11 +16,15 @@ interface ChatData {
 
 const ChatPage = () => {
 	const [chats, setChats] = useState<ChatData[] | null>();
+	const {
+		user: { token },
+	} = useAuthContext();
+
 	useEffect(() => {
-		fetchChats().then((results) => {
+		fetchChats(token).then((results) => {
 			setChats(results);
 		});
-	}, []);
+	}, [token]);
 
 	return (
 		<>

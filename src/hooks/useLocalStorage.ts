@@ -19,11 +19,11 @@ const useLocalStorage = <T>(key: string, value: T | (() => T)) => {
 
 	useEffect(() => {
 		try {
-			localStorage.setItem(key, JSON.stringify(value));
+			localStorage.setItem(key, JSON.stringify(state));
 		} catch (e: unknown) {
 			console.log(e);
 		}
-	}, [key, value]);
+	}, [key, state]);
 
 	return [state, setState] as [typeof state, typeof setState];
 };

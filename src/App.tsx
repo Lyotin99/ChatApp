@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import ChatPage from "./pages/ChatPage";
 import AuthProvider from "./context/AuthContext";
+import AuthRoute from "./components/AuthRoute/AuthRoute";
+import GuestRoute from "./components/GuestRoute/GuestRoute";
 
 function App() {
 	return (
@@ -11,9 +13,23 @@ function App() {
 				<div className="wrapper__inner">
 					<div className="main">
 						<Routes>
-							<Route path="/" element={<Homepage />} />
+							<Route
+								path="/"
+								element={
+									<GuestRoute>
+										<Homepage />
+									</GuestRoute>
+								}
+							/>
 
-							<Route path="/chats" element={<ChatPage />} />
+							<Route
+								path="/chats"
+								element={
+									<AuthRoute>
+										<ChatPage />
+									</AuthRoute>
+								}
+							/>
 						</Routes>
 					</div>
 				</div>

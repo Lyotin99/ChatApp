@@ -1,7 +1,7 @@
-import React, { useContext, createContext, useState } from "react";
+import { useContext, createContext } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 
-interface AuthContext {
+interface AuthContextData {
 	login: (userData: User) => void;
 	logout: () => void;
 	user: User;
@@ -21,7 +21,7 @@ const initialUser: User = {
 	username: "",
 };
 
-export const AuthContext = createContext({} as AuthContext);
+export const AuthContext = createContext({} as AuthContextData);
 
 const AuthProvider = ({ children }: { children: JSX.Element }) => {
 	const [user, setUser] = useLocalStorage<User>("user", initialUser);
