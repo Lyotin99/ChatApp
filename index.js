@@ -4,6 +4,7 @@ import authRoute from "./routes/auth.js";
 import { config } from "dotenv";
 import { chats } from "./data/data.js";
 import cors from "cors";
+import authenticate from "./middlewares/authentication.js";
 
 const app = express();
 config();
@@ -14,7 +15,7 @@ app.use(express.json());
 
 app.use("/api/v1/auth", authRoute);
 
-app.get("/api/v1/chats", (req, res) => {
+app.get("/api/v1/chats", authenticate, (req, res) => {
 	res.send(chats);
 });
 
