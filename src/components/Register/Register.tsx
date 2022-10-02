@@ -1,83 +1,120 @@
+import { useState } from "react";
+import { uploadImg } from "../../services/CloudinaryService";
+import { authRegister } from "../../services/AuthService";
+import { regValidate } from "../../utils/registerValidation";
+import { useAuthContext } from "../../context/AuthContext";
+import FormRow from "../UI/FormRow/FormRow";
+
 const Register = () => {
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isImageUploaded, setIsImageUploaded] = useState<boolean>(false);
+	const [error, setError] = useState<string>("");
+	const { login } = useAuthContext();
+
+	const setIsImageUploadedHandler = () => {
+		setIsImageUploaded(true);
+	};
+
+	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setIsLoading(true);
+
+		const formData = new FormData(e.currentTarget);
+		const username = String(formData.get("username"));
+		const email = String(formData.get("email"));
+		const password = String(formData.get("password"));
+		const confirmPassword = String(formData.get("confirmPassword"));
+		const pic = formData.get("pic");
+		const validation = regValidate(
+			username,
+			email,
+			password,
+			confirmPassword
+		);
+
+		if (!validation) {
+			setError(validation);
+			setIsLoading(false);
+			return;
+		}
+
+		if (pic && isImageUploaded) {
+			uploadImg(pic, formData).then((data) => {
+				if (!data.error) {
+					authRegister({
+						username,
+						email,
+						password,
+						confirmPassword,
+						photo: data.secure_url,
+					}).then((res) => {
+						setIsLoading(false);
+						return !res.ok ? setError(res.msg) : login(res.data);
+					});
+				} else {
+					setError("Something went wrong. Try again later!");
+				}
+			});
+		} else {
+			authRegister({
+				username,
+				email,
+				password,
+				confirmPassword,
+			}).then((res) => {
+				setIsLoading(false);
+				return !res.ok ? setError(res.msg) : login(res.data);
+			});
+		}
+	};
+
 	return (
-		<form className="form-login">
+		<form className="form-login" onSubmit={handleSubmit}>
 			<div className="form__body">
-				<div className="form__row">
-					<div className="form__label">
-						<label htmlFor="username">Username</label>
-					</div>
+				<FormRow
+					id="username"
+					label="Username"
+					name="username"
+					type="text"
+					placeholder="Enter username..."
+					required
+				/>
 
-					<div className="form__control">
-						<input
-							type="text"
-							id="username"
-							name="username"
-							placeholder="Enter username..."
-						/>
-					</div>
-				</div>
+				<FormRow
+					id="email"
+					label="Email"
+					name="email"
+					type="email"
+					placeholder="Enter email..."
+					required
+				/>
 
-				<div className="form__row">
-					<div className="form__label">
-						<label htmlFor="email">Email</label>
-					</div>
+				<FormRow
+					id="password"
+					label="Password"
+					name="password"
+					type="password"
+					placeholder="Enter password..."
+					required
+				/>
 
-					<div className="form__control">
-						<input
-							type="email"
-							id="email"
-							name="email"
-							placeholder="Enter email..."
-						/>
-					</div>
-				</div>
+				<FormRow
+					id="confirmPassword"
+					label="Confirm password"
+					name="confirmPassword"
+					type="password"
+					placeholder="Confirm your password..."
+					required
+				/>
 
-				<div className="form__row">
-					<div className="form__label">
-						<label htmlFor="password">Password</label>
-					</div>
-
-					<div className="form__control">
-						<input
-							type="password"
-							id="password"
-							name="password"
-							placeholder="Enter password..."
-						/>
-					</div>
-				</div>
-
-				<div className="form__row">
-					<div className="form__label">
-						<label htmlFor="confirmPassword">
-							Confirm password
-						</label>
-					</div>
-
-					<div className="form__control">
-						<input
-							type="password"
-							id="confirmPassword"
-							name="confirmPassword"
-							placeholder="Confirm your password..."
-						/>
-					</div>
-				</div>
-
-				<div className="form__row">
-					<div className="form__label">
-						<label htmlFor="pic">Upload photo</label>
-					</div>
-
-					<div className="form__control">
-						<input
-							type="file"
-							accept="image/*"
-							id="pic"
-							name="pic"
-						/>
-					</div>
-				</div>
+				<FormRow
+					id="pic"
+					label="Upload photo (optional)"
+					name="pic"
+					type="file"
+					required={false}
+					changeHandler={setIsImageUploadedHandler}
+				/>
 			</div>
 
 			<div className="form__actions">
@@ -85,6 +122,10 @@ const Register = () => {
 					Sign up
 				</button>
 			</div>
+
+			{isLoading && <span className="form__loader">Loading...</span>}
+
+			{error && <span className="form__error">{error}</span>}
 		</form>
 	);
 };
