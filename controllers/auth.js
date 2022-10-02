@@ -50,6 +50,7 @@ const login = async (req, res) => {
 			username: user.username,
 			email: user.email,
 			token,
+			userId: user._id,
 		});
 	} catch (e) {
 		res.status(500).json({ msg: "Oops, something went wrong!" });
