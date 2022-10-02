@@ -13,7 +13,7 @@ const userModel = new mongoose.Schema(
 			type: String,
 			required: [true, "Email is empty"],
 			trim: true,
-			unique: true,
+			unique: [true, "Email is already taken"],
 			match: [
 				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
 				"Please provide valid email",

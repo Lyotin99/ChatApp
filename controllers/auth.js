@@ -1,7 +1,7 @@
 import userModel from "../models/userModel.js";
 
 const register = async (req, res) => {
-	const { username, email, password, confirmPassword } = req.body;
+	const { username, email, password, confirmPassword, photo } = req.body;
 
 	if (password !== confirmPassword)
 		return res.status(400).json({ msg: "Passwords do not match" });
@@ -11,11 +11,19 @@ const register = async (req, res) => {
 			username,
 			email,
 			password,
+			photo:
+				photo ||
+				"https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
 		});
+
 		const token = user.createJwt();
 
-		res.status(201).json({ user, token });
+		res.status(201).json({ username, email, userId: user._id, token });
 	} catch (e) {
+		if (e.code === 11000) {
+			return res.status(500).json({ msg: "Email is already taken!" });
+		}
+
 		res.status(500).json({ msg: "Oops, something went wrong!" });
 	}
 };
