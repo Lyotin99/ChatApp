@@ -1,8 +1,9 @@
 import express from "express";
 import connectDb from "./connect/connectDb.js";
 import authRoute from "./routes/auth.js";
+import usersRoute from "./routes/users.js";
+import chatsRoute from "./routes/chats.js";
 import { config } from "dotenv";
-import { chats } from "./data/data.js";
 import cors from "cors";
 import authenticate from "./middlewares/authentication.js";
 
@@ -14,20 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1/auth", authRoute);
-
-app.get("/api/v1/chats", authenticate, (req, res) => {
-	res.send(chats);
-});
-
-app.get("/api/v1/chats/:id", (req, res) => {
-	const chat = chats.find((chat) => chat._id === req.params.id);
-
-	if (!chat) {
-		return res.send(404);
-	}
-
-	res.send(chat);
-});
+app.use("/api/v1/users", authenticate, usersRoute);
+app.use("/api/v1/chats", authenticate, chatsRoute);
 
 const PORT = process.env.PORT || 5000;
 
