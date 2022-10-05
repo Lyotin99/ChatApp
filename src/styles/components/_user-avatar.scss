@@ -1,0 +1,75 @@
+.user-avatar {
+    position: relative;
+    margin: -.6rem 0;
+
+    .user__avatar-list {
+        position: absolute;
+        top: 100%;
+        left: -20%;
+        min-width: 15rem;
+        padding-top: 1rem;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .4s;
+    }
+
+    .user__avatar-list.is-visible {
+        pointer-events: auto;
+        opacity: 1;
+    }
+    
+    ul {
+        background-color: $c-white;
+        padding: 1rem;
+        box-shadow: 0 0 .5rem rgba($color: #000000, $alpha: .3);
+        border-radius: 1.2rem;
+    }
+
+    .btn__avatar-logout {
+        padding-left: 2.5rem;
+        position: relative;
+        transition: opacity .3s;
+
+        &:hover {
+            opacity: .7;
+        }
+
+        svg {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+    }
+
+    .btn__avatar {
+        padding: .6rem 2.5rem .6rem 1rem;
+        position: relative;
+        border-radius: 1.2rem;
+        transition: background .3s;
+
+        &:hover {
+            background-color: #f1f1f1;
+        }
+
+        svg {
+            position: absolute;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            transition: transform .4s;
+        }
+    }
+
+    .btn__avatar.is-clicked {
+        svg {
+            transform: rotate(180deg) translateY(50%);
+        }
+    }
+
+    ul {
+        list-style: none;
+    }
+}
