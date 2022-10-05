@@ -1,6 +1,6 @@
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import useDebounce from "../../hooks/useDebounce";
 import searchUsers from "../../services/UserServices";
@@ -32,12 +32,13 @@ const SearchUsersModal = ({
 	} = useAuthContext();
 
 	useEffect(() => {
-		debounce &&
-			searchUsers(debounce, token).then((data) => {
-				setIsLoading(true);
-				setUsers(data);
-				setIsLoading(false);
-			});
+		debounce
+			? searchUsers(debounce, token).then((data) => {
+					setIsLoading(true);
+					setUsers(data);
+					setIsLoading(false);
+			  })
+			: setUsers([]);
 	}, [debounce, token]);
 
 	return (
