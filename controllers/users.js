@@ -11,7 +11,7 @@ const searchUsers = async (req, res) => {
 		: {};
 
 	const users = await userModel
-		.find(keyword)
+		.find(keyword, "-password")
 		.find({ _id: { $ne: req.user.userId } });
 
 	res.status(200).json(users);
