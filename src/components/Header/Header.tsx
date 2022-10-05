@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useAuthContext } from "../../context/AuthContext";
 import SearchUsersModal from "../SearchUsersModal/SearchUsersModal";
+import UserAvatar from "../UserAvatar/UserAvatar";
 
 const Header = () => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
@@ -37,7 +38,7 @@ const Header = () => {
 					</div>
 
 					<div className="header__aside">
-						<p>Hello Mustafa</p>
+						<UserAvatar />
 					</div>
 				</div>
 			</div>
