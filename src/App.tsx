@@ -7,38 +7,41 @@ import AuthRoute from "./components/AuthRoute/AuthRoute";
 import GuestRoute from "./components/GuestRoute/GuestRoute";
 import Header from "./components/Header/Header";
 import ChatsProvider from "./context/ChatsContext";
+import MessagesProvider from "./context/MessagesContext";
 
 function App() {
 	return (
 		<AuthProvider>
 			<ChatsProvider>
-				<div className="wrapper">
-					<div className="wrapper__inner">
-						<Header />
+				<MessagesProvider>
+					<div className="wrapper">
+						<div className="wrapper__inner">
+							<Header />
 
-						<div className="main">
-							<Routes>
-								<Route
-									path="/"
-									element={
-										<GuestRoute>
-											<Homepage />
-										</GuestRoute>
-									}
-								/>
+							<div className="main">
+								<Routes>
+									<Route
+										path="/"
+										element={
+											<GuestRoute>
+												<Homepage />
+											</GuestRoute>
+										}
+									/>
 
-								<Route
-									path="/chats"
-									element={
-										<AuthRoute>
-											<ChatPage />
-										</AuthRoute>
-									}
-								/>
-							</Routes>
+									<Route
+										path="/chats"
+										element={
+											<AuthRoute>
+												<ChatPage />
+											</AuthRoute>
+										}
+									/>
+								</Routes>
+							</div>
 						</div>
 					</div>
-				</div>
+				</MessagesProvider>
 			</ChatsProvider>
 		</AuthProvider>
 	);

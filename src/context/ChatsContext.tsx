@@ -6,6 +6,7 @@ import {
 	updateGroupChatService,
 	removeGroupChatService,
 } from "../services/ChatServices";
+import { Chat } from "../utils/types";
 import { useAuthContext } from "./AuthContext";
 
 interface ChatContextData {
@@ -16,35 +17,6 @@ interface ChatContextData {
 	createGroupChat: (chatId: string, users: [{ userId: string }]) => void;
 	updateGroupChat: (chatId: string, newChatName: string) => void;
 	removeGroupChat: (chatId: string) => void;
-}
-
-interface User {
-	_id: string;
-	photo: string;
-	email: string;
-	username?: string;
-	createdAt?: string;
-	updatedAt?: string;
-}
-
-interface Message {
-	_id: string;
-	sender: User;
-	content: string;
-	chat: string;
-	createdAt: string;
-	updatedAt: string;
-}
-
-interface Chat {
-	_id: string;
-	chatName: string;
-	isGroupChat: boolean;
-	createdAt: string;
-	updatedAt: string;
-	users: User[];
-	groupAdmin: User;
-	latestMessage: Message;
 }
 
 const ChatsContext = createContext({} as ChatContextData);
