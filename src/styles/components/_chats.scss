@@ -1,3 +1,34 @@
 .chats {
-    
+    display: flex;
+    flex-flow: column;
+}
+
+.chats .chat {
+    background-color:#f1f1f1;
+    padding: 1.5rem;
+    border-radius: 1.2rem;
+    margin-bottom: 2rem;
+    min-height: 7.84rem;
+    transition: background .2s;
+
+    &:hover {
+        background-color: #cccccc;
+        cursor: pointer;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    small {
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+
+}
+
+.chats .chat.is-active {
+    background-color: $c-secondary;
 }
