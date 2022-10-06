@@ -16,7 +16,25 @@ export const getAllMessagesService = async (chatId: string, token: string) => {
 	}
 };
 
-export const sendMessageService = () => {
+export const sendMessageService = async (
+	chatId: string,
+	content: string,
+	token: string
+) => {
 	try {
-	} catch (error) {}
+		const req = await fetch(`${messagesURL}/${chatId}`, {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ content }),
+		});
+
+		const res = await req.json();
+
+		return res;
+	} catch (error) {
+		console.log(error);
+	}
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ChatItem from "../components/ChatItem/ChatItem";
 import CreateGroupChat from "../components/CreateGroupChat/CreateGroupChat";
 import Messages from "../components/Messages/Messages";
+import SendMessage from "../components/SendMessage/SendMessage";
 import { useChatContext } from "../context/ChatsContext";
 import { useMessagesContext } from "../context/MessagesContext";
 import { Message } from "../utils/types";
@@ -11,13 +12,10 @@ const ChatPage = () => {
 	const [getChatId, setGetChatId] = useState<string>("");
 	const { chats } = useChatContext();
 	const { messages } = useMessagesContext();
-	const messageForm = useRef<HTMLInputElement>(null);
 	const anchor = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (messages.length > 0) {
-			console.log(messages);
-			messageForm.current?.focus();
 			anchor.current?.scrollIntoView({
 				behavior: "smooth",
 			});
@@ -90,9 +88,7 @@ const ChatPage = () => {
 						</div>
 
 						<div className="messages-form">
-							<form>
-								<input ref={messageForm} type="text" />
-							</form>
+							<SendMessage chatId={getChatId} />
 						</div>
 					</div>
 				</div>
