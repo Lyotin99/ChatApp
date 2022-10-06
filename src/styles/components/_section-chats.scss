@@ -4,8 +4,10 @@
     .section__inner {
         display: grid;
         grid-template-columns: .8fr 2.2fr;
+        grid-auto-rows: calc(100vh - 5rem - 4rem);
         gap: 2rem;
         min-height: calc(100vh - 5rem - 4rem);
+        overflow-y: auto;
     }
 
     .section__users,
@@ -17,6 +19,8 @@
     
     .section__chats {
         background-color: $c-white;
+        position: relative;
+        padding-bottom: 8rem;
     }
 
     .section__users-head {

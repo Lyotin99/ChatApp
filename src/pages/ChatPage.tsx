@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ChatItem from "../components/ChatItem/ChatItem";
 import CreateGroupChat from "../components/CreateGroupChat/CreateGroupChat";
+import Messages from "../components/Messages/Messages";
 import { useChatContext } from "../context/ChatsContext";
 import { useMessagesContext } from "../context/MessagesContext";
 import { Message } from "../utils/types";
@@ -10,6 +11,18 @@ const ChatPage = () => {
 	const [getChatId, setGetChatId] = useState<string>("");
 	const { chats } = useChatContext();
 	const { messages } = useMessagesContext();
+	const messageForm = useRef<HTMLInputElement>(null);
+	const anchor = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (messages.length > 0) {
+			console.log(messages);
+			messageForm.current?.focus();
+			anchor.current?.scrollIntoView({
+				behavior: "smooth",
+			});
+		}
+	}, [messages]);
 
 	const hideModalHandler = () => {
 		setIsVisible(false);
@@ -52,11 +65,9 @@ const ChatPage = () => {
 												onClick={() => {
 													setGetChatId(chat._id);
 												}}
+												key={chat._id}
 											>
-												<ChatItem
-													key={chat._id}
-													chat={chat}
-												/>
+												<ChatItem chat={chat} />
 											</div>
 										);
 									})}
@@ -65,12 +76,24 @@ const ChatPage = () => {
 					</div>
 
 					<div className="section__chats">
-						{messages.length > 0 &&
-							messages.map((message: Message) => {
-								return (
-									<p key={message._id}>{message.content}</p>
-								);
-							})}
+						<div className="messages">
+							{messages.length > 0 &&
+								messages.map((message: Message) => {
+									return (
+										<Messages
+											key={message._id}
+											message={message}
+										/>
+									);
+								})}
+							<div ref={anchor}></div>
+						</div>
+
+						<div className="messages-form">
+							<form>
+								<input ref={messageForm} type="text" />
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
