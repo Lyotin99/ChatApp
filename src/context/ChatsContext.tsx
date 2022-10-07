@@ -46,7 +46,18 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 
 	const createUserChat = (userId: string) => {
 		const chat = createChat(userId, token).then((res) => {
-			setChats([res.chats, ...chats]);
+			const chat = chats.find((chat) => chat._id === res.chats._id);
+
+			if (!chat) {
+				setChats([res.chats, ...chats]);
+			} else {
+				const chatsWithoutSelectedOne = chats.filter(
+					(chat) => chat._id !== res.chats._id
+				);
+
+				setChats([res.chats, ...chatsWithoutSelectedOne]);
+			}
+
 			return res.chats;
 		});
 

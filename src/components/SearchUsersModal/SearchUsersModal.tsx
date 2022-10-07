@@ -23,9 +23,10 @@ const SearchUsersModal = ({
 	isHidden: () => void;
 }) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isClicked, setIsClicked] = useState<boolean>(false);
 	const [searchField, setSearchField] = useState<string>("");
-	const debounce = useDebounce(searchField, 500);
 	const [users, setUsers] = useState<User[]>([]);
+	const debounce = useDebounce(searchField, 500);
 
 	const {
 		user: { token },
@@ -62,7 +63,15 @@ const SearchUsersModal = ({
 
 					<div className="search__modal-list">
 						{users.map((user: User) => {
-							return <UserItem key={user._id} user={user} />;
+							return (
+								<div
+									className="user-search"
+									key={user._id}
+									onClick={isHidden}
+								>
+									<UserItem user={user} />
+								</div>
+							);
 						})}
 					</div>
 

@@ -75,15 +75,16 @@ const ChatPage = () => {
 
 					<div className="section__chats">
 						<div className="messages">
-							{messages.length > 0 &&
-								messages.map((message: Message) => {
-									return (
-										<Messages
-											key={message._id}
-											message={message}
-										/>
-									);
-								})}
+							{messages.length > 0
+								? messages.map((message: Message) => {
+										return (
+											<Messages
+												key={message._id}
+												message={message}
+											/>
+										);
+								  })
+								: "No messages"}
 							<div ref={anchor}></div>
 						</div>
 

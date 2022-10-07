@@ -1,3 +1,5 @@
+import { useChatContext } from "../../context/ChatsContext";
+
 interface UserItemProps {
 	user: {
 		_id: string;
@@ -10,8 +12,14 @@ interface UserItemProps {
 }
 
 const UserItem = ({ user }: UserItemProps) => {
+	const { createUserChat } = useChatContext();
+
+	const createChatHandler = () => {
+		user && createUserChat(user._id);
+	};
+
 	return (
-		<div className="user-search">
+		<div className="user__search-inner" onClick={createChatHandler}>
 			<div className="user__search-img">
 				<img src={user.photo} alt={user.username} />
 			</div>

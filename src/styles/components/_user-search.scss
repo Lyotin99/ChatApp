@@ -1,12 +1,21 @@
 .user-search {
-    display: grid;
-    grid-template-columns: 6rem calc(100% - 6rem);
-    align-items: center;
-    gap: 1.5rem;
-    background: #f1f1f1;
-    padding: 1rem;
-    border-radius: 1.2rem;
-    margin-bottom: 2rem;
+    .user__search-inner {
+        display: grid;
+        grid-template-columns: 6rem calc(100% - 6rem);
+        align-items: center;
+        gap: 1.5rem;
+        background: #f1f1f1;
+        padding: 1rem;
+        border-radius: 1.2rem;
+        margin-bottom: 2rem;
+        transition: background .2s;
+        cursor: pointer;
+        
+        &:hover {
+            background: #cccccc;
+        }
+    }
+
 
     &:last-child {
         margin-bottom: 0;
