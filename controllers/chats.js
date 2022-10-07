@@ -40,7 +40,7 @@ const createChat = async (req, res) => {
 				"-password"
 			);
 
-			res.status(200).json({ fullChat });
+			res.status(200).json({ chats: fullChat[0] });
 		} catch (e) {
 			res.status(400);
 			throw new Error(error.message);
@@ -55,7 +55,7 @@ const getAllUserChats = async (req, res) => {
 		users: { $elemMatch: { $eq: userId } },
 	})
 		.populate("users", "-password")
-		.populate("groupAdmin")
+		.populate("groupAdmin", "-password")
 		.populate("latestMessage")
 		.sort({ updatedAt: -1 })
 		.then(async (results) => {
