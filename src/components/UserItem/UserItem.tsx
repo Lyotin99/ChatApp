@@ -1,4 +1,6 @@
 import { useChatContext } from "../../context/ChatsContext";
+import { useNavigate } from "react-router-dom";
+import { useMessagesContext } from "../../context/MessagesContext";
 
 interface UserItemProps {
 	user: {
@@ -13,9 +15,14 @@ interface UserItemProps {
 
 const UserItem = ({ user }: UserItemProps) => {
 	const { createUserChat } = useChatContext();
+	const { getChatMessages } = useMessagesContext();
+	const navigate = useNavigate();
 
 	const createChatHandler = () => {
-		user && createUserChat(user._id);
+		createUserChat(user._id).then((res) => {
+			getChatMessages(res._id);
+			navigate(`/chats/${res._id}`);
+		});
 	};
 
 	return (

@@ -1,6 +1,7 @@
 import { useAuthContext } from "../../context/AuthContext";
 import { useMessagesContext } from "../../context/MessagesContext";
 import { Message, User } from "../../utils/types";
+import { useNavigate } from "react-router-dom";
 
 interface ChatItemProps {
 	chat: {
@@ -19,9 +20,16 @@ const ChatItem = ({
 		user: { userId },
 	} = useAuthContext();
 	const { getChatMessages } = useMessagesContext();
+	const navigate = useNavigate();
 
 	return (
-		<div onClick={() => getChatMessages(_id)} className="chat__inner">
+		<div
+			onClick={() => {
+				getChatMessages(_id);
+				navigate(`/chats/${_id}`);
+			}}
+			className="chat__inner"
+		>
 			<div className="chat__content">
 				<h6>
 					{isGroupChat

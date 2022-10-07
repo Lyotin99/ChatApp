@@ -37,6 +37,15 @@ function App() {
 											</AuthRoute>
 										}
 									/>
+
+									<Route
+										path="/chats/:chatId"
+										element={
+											<AuthRoute>
+												<ChatPage />
+											</AuthRoute>
+										}
+									/>
 								</Routes>
 							</div>
 						</div>

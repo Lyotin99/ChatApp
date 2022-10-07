@@ -1,26 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import ChatItem from "../components/ChatItem/ChatItem";
 import CreateGroupChat from "../components/CreateGroupChat/CreateGroupChat";
 import Messages from "../components/Messages/Messages";
-import SendMessage from "../components/SendMessage/SendMessage";
 import { useChatContext } from "../context/ChatsContext";
-import { useMessagesContext } from "../context/MessagesContext";
-import { Message } from "../utils/types";
 
 const ChatPage = () => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
-	const [getChatId, setGetChatId] = useState<string>("");
 	const { chats } = useChatContext();
-	const { messages } = useMessagesContext();
-	const anchor = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		if (messages.length > 0) {
-			anchor.current?.scrollIntoView({
-				behavior: "smooth",
-			});
-		}
-	}, [messages]);
+	const { chatId } = useParams();
 
 	const hideModalHandler = () => {
 		setIsVisible(false);
@@ -38,7 +26,7 @@ const ChatPage = () => {
 								className="btn"
 								onClick={() => setIsVisible(true)}
 							>
-								New Group Chat +
+								Group Chat +
 							</button>
 
 							{isVisible && (
@@ -56,13 +44,10 @@ const ChatPage = () => {
 										return (
 											<div
 												className={`chat ${
-													chat._id === getChatId
+													chat._id === chatId
 														? "is-active"
 														: ""
 												}`}
-												onClick={() => {
-													setGetChatId(chat._id);
-												}}
 												key={chat._id}
 											>
 												<ChatItem chat={chat} />
@@ -73,25 +58,7 @@ const ChatPage = () => {
 						</div>
 					</div>
 
-					<div className="section__chats">
-						<div className="messages">
-							{messages.length > 0
-								? messages.map((message: Message) => {
-										return (
-											<Messages
-												key={message._id}
-												message={message}
-											/>
-										);
-								  })
-								: "No messages"}
-							<div ref={anchor}></div>
-						</div>
-
-						<div className="messages-form">
-							<SendMessage chatId={getChatId} />
-						</div>
-					</div>
+					{chatId && <Messages chatId={chatId} />}
 				</div>
 			</div>
 		</section>

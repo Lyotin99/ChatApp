@@ -12,8 +12,8 @@ import { useAuthContext } from "./AuthContext";
 interface ChatContextData {
 	chats: Chat[];
 	loading: boolean;
-	getChat: (chatId: string) => void;
-	createUserChat: (chatId: string) => void;
+	updateChatLatestMessage: (chatId: string, latestMessage: string) => void;
+	createUserChat: (userId: string) => Promise<any>;
 	createGroupChat: (chatId: string, users: [{ userId: string }]) => void;
 	updateGroupChat: (chatId: string, newChatName: string) => void;
 	removeGroupChat: (chatId: string) => void;
@@ -38,28 +38,35 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 			});
 	}, [token, userId]);
 
-	const getChat = (chatId: string) => {
-		const singleChat = chats.find((chat: Chat) => chatId === chat._id);
+	const updateChatLatestMessage = (chatId: string, latestMessage: string) => {
+		setChats((oldChats) => {
+			return oldChats.map((chat) => {
+				if (chat._id === chatId)
+					chat.latestMessage.content = latestMessage;
 
-		return singleChat;
+				return chat;
+			});
+		});
 	};
 
 	const createUserChat = (userId: string) => {
-		const chat = createChat(userId, token).then((res) => {
-			const chat = chats.find((chat) => chat._id === res.chats._id);
+		const chat = createChat(userId, token)
+			.then((res) => {
+				const chat = chats.find((chat) => chat._id === res.chats._id);
 
-			if (!chat) {
-				setChats([res.chats, ...chats]);
-			} else {
-				const chatsWithoutSelectedOne = chats.filter(
-					(chat) => chat._id !== res.chats._id
-				);
+				if (!chat) {
+					setChats([res.chats, ...chats]);
+				} else {
+					const chatsWithoutSelectedOne = chats.filter(
+						(chat) => chat._id !== res.chats._id
+					);
 
-				setChats([res.chats, ...chatsWithoutSelectedOne]);
-			}
+					setChats([res.chats, ...chatsWithoutSelectedOne]);
+				}
 
-			return res.chats;
-		});
+				return res.chats;
+			})
+			.catch((e) => console.log(e));
 
 		return chat;
 	};
@@ -110,9 +117,9 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 			value={{
 				chats,
 				loading,
+				updateChatLatestMessage,
 				createGroupChat,
 				createUserChat,
-				getChat,
 				removeGroupChat,
 				updateGroupChat,
 			}}

@@ -1,27 +1,39 @@
-import { useAuthContext } from "../../context/AuthContext";
+import { useEffect, useRef } from "react";
+import { useMessagesContext } from "../../context/MessagesContext";
 import { Message } from "../../utils/types";
+import SendMessage from "../SendMessage/SendMessage";
+import MessageItem from "../MessageItem/MessageItem";
 
-interface MessageProps {
-	message: Message;
-}
+const Messages = ({ chatId }: { chatId: string }) => {
+	const anchor = useRef<HTMLDivElement>(null);
+	const { messages } = useMessagesContext();
 
-const Messages = ({
-	message: {
-		content,
-		createdAt,
-		sender: { _id: senderId },
-	},
-}: MessageProps) => {
-	const {
-		user: { userId },
-	} = useAuthContext();
+	useEffect(() => {
+		if (messages.length > 0) {
+			anchor.current?.scrollIntoView({
+				behavior: "smooth",
+			});
+		}
+	}, [messages]);
 
 	return (
-		<div
-			className={`message ${senderId === userId ? "message--user" : ""}`}
-		>
-			<div className="message__inner">
-				<p>{content}</p>
+		<div className="section__messages">
+			<div className="messages">
+				{messages.length > 0
+					? messages.map((message: Message) => {
+							return (
+								<MessageItem
+									key={message._id}
+									message={message}
+								/>
+							);
+					  })
+					: "No messages"}
+				<div ref={anchor}></div>
+			</div>
+
+			<div className="messages-form">
+				<SendMessage chatId={chatId} />
 			</div>
 		</div>
 	);

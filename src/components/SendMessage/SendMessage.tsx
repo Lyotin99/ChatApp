@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useRef } from "react";
 import { useMessagesContext } from "../../context/MessagesContext";
+import { useChatContext } from "../../context/ChatsContext";
 
 interface SendMessageProps {
 	chatId: string;
@@ -8,6 +9,7 @@ interface SendMessageProps {
 const SendMessage = ({ chatId }: SendMessageProps) => {
 	const messageForm = useRef<HTMLInputElement>(null);
 	const { messages, postMessage } = useMessagesContext();
+	const { updateChatLatestMessage } = useChatContext();
 
 	useEffect(() => {
 		messages && messageForm.current?.focus();
@@ -20,6 +22,7 @@ const SendMessage = ({ chatId }: SendMessageProps) => {
 
 		if (content.trim()) {
 			postMessage(content, chatId);
+			updateChatLatestMessage(chatId, content);
 			e.currentTarget.reset();
 		}
 	};

@@ -11,13 +11,13 @@
     }
 
     .section__users,
-    .section__chats {
+    .section__messages {
         background-color: $c-white;
         box-shadow: 0 0 .6rem rgba($color: #000000, $alpha: .3);
         padding: 2rem;
     }
     
-    .section__chats {
+    .section__messages {
         background-color: $c-white;
         position: relative;
         padding-bottom: 8rem;
@@ -28,6 +28,10 @@
         grid-template-columns: calc(100% - 20rem) 20rem;
         align-items: center;
         padding-bottom: 2rem;
+
+        @include breakpoint-down-large-desktop {
+            grid-template-columns: calc(100% - 15rem) 15rem;;
+        }
     }
 
     h4 {

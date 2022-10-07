@@ -23,7 +23,6 @@ const SearchUsersModal = ({
 	isHidden: () => void;
 }) => {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [isClicked, setIsClicked] = useState<boolean>(false);
 	const [searchField, setSearchField] = useState<string>("");
 	const [users, setUsers] = useState<User[]>([]);
 	const debounce = useDebounce(searchField, 500);
