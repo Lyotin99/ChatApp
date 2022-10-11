@@ -38,11 +38,20 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 			});
 	}, [userId]);
 
-	const updateChatLatestMessage = (chatId: string, latestMessage: string) => {
+	const updateChatLatestMessage = (
+		chatId: string,
+		latestMessageContent: string
+	) => {
 		setChats((oldChats) => {
 			return oldChats.map((chat) => {
 				if (chat._id === chatId)
-					chat.latestMessage.content = latestMessage;
+					chat = {
+						...chat,
+						latestMessage: {
+							...chat.latestMessage,
+							content: latestMessageContent,
+						},
+					};
 
 				return chat;
 			});
