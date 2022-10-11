@@ -2,9 +2,9 @@ export interface User {
 	_id: string;
 	photo: string;
 	email: string;
-	username?: string;
-	createdAt?: string;
-	updatedAt?: string;
+	username: string;
+	createdAt: string;
+	updatedAt: string;
 }
 
 export interface Message {

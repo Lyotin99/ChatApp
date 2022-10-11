@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../context/AuthContext";
 import useDebounce from "../../hooks/useDebounce";
 import searchUsers from "../../services/UserServices";
 import UserItem from "../UserItem/UserItem";
 import { motion } from "framer-motion";
+import { User } from "../../utils/types";
+import { useChatContext } from "../../context/ChatsContext";
 
 const CreateGroupChat = ({
 	hideModalHandler,
@@ -14,19 +17,37 @@ const CreateGroupChat = ({
 }) => {
 	const [search, setSearch] = useState<string>("");
 	const [users, setUsers] = useState<[] | null>(null);
+	const [usersId, setUsersId] = useState<string[]>([]);
 	const debounce = useDebounce(search, 500);
 	const {
 		user: { token },
 	} = useAuthContext();
+	const { createGroupChat } = useChatContext();
+	const navigate = useNavigate();
 
 	useEffect(() => {
-		!search && setUsers([]);
-
 		debounce &&
 			searchUsers(debounce, token).then((data) => {
 				setUsers(data);
 			});
 	}, [debounce, token]);
+
+	const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+
+		const formData = new FormData(e.currentTarget);
+		const groupName = String(formData.get("group-name"));
+
+		if (usersId.length > 2 || groupName) {
+			createGroupChat(groupName, usersId).then((res) => {
+				navigate(`/chats/${res._id}`);
+				hideModalHandler();
+			});
+
+			setUsersId([]);
+			e.currentTarget.reset();
+		}
+	};
 
 	return (
 		<motion.div
@@ -46,7 +67,7 @@ const CreateGroupChat = ({
 				</div>
 
 				<div className="cgm__form">
-					<form action="POST">
+					<form action="POST" onSubmit={submitHandler}>
 						<div className="form__body">
 							<div className="form__row">
 								<div className="form__label">
@@ -65,11 +86,40 @@ const CreateGroupChat = ({
 
 									{users && users.length > 0 && (
 										<div className="cgm__search-users">
-											{users.map((user: any) => (
-												<UserItem
+											{users.map((user: User) => (
+												<div
+													className={`user-search ${
+														usersId.includes(
+															user._id
+														)
+															? "is-picked"
+															: ""
+													}`}
 													key={user._id}
-													user={user}
-												/>
+													onClick={() => {
+														!usersId.includes(
+															user._id
+														)
+															? setUsersId([
+																	...usersId,
+																	user._id,
+															  ])
+															: setUsersId(
+																	usersId.filter(
+																		(
+																			userId: string
+																		) =>
+																			userId !==
+																			user._id
+																	)
+															  );
+													}}
+												>
+													<UserItem
+														user={user}
+														isGroupChat={true}
+													/>
+												</div>
 											))}
 										</div>
 									)}
@@ -78,13 +128,17 @@ const CreateGroupChat = ({
 
 							<div className="form__row">
 								<div className="form__label">
-									<label htmlFor="">Group Name</label>
+									<label htmlFor="group-name">
+										Group Name
+									</label>
 								</div>
 
 								<div className="form__control">
 									<input
 										type="text"
 										placeholder="Enter group name..."
+										id="group-name"
+										name="group-name"
 									/>
 								</div>
 							</div>

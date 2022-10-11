@@ -14,7 +14,7 @@ interface ChatContextData {
 	loading: boolean;
 	updateChatLatestMessage: (chatId: string, latestMessage: string) => void;
 	createUserChat: (userId: string) => Promise<any>;
-	createGroupChat: (chatId: string, users: [{ userId: string }]) => void;
+	createGroupChat: (chatName: string, users: string[]) => Promise<any>;
 	updateGroupChat: (chatId: string, newChatName: string) => void;
 	removeGroupChat: (chatId: string) => void;
 }
@@ -71,7 +71,7 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 		return chat;
 	};
 
-	const createGroupChat = (chatName: string, users: [{ userId: string }]) => {
+	const createGroupChat = (chatName: string, users: string[]) => {
 		const usersStringified = JSON.stringify(users);
 
 		const chat = createGroupChatService(

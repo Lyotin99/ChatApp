@@ -46,3 +46,9 @@
         font-size: 1.2rem;
     }
 }
+
+.user-search.is-picked {
+    .user__search-inner {
+        background: #cccccc;
+    }
+}

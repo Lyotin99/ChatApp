@@ -68,7 +68,7 @@ const SearchUsersModal = ({
 									key={user._id}
 									onClick={isHidden}
 								>
-									<UserItem user={user} />
+									<UserItem user={user} isGroupChat={false} />
 								</div>
 							);
 						})}

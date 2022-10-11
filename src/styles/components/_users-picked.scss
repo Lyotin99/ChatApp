@@ -1,0 +1,24 @@
+.users-picked {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 2rem;
+    padding-top: 2rem;
+}
+
+.users-picked .user-search {
+    .user__search-img {
+        min-height: 3rem;
+    }
+
+    .user__search-inner {
+        grid-template-columns: 3rem calc(100% - 3rem);
+    }
+
+    .user__search-content p + p {
+        display: none;
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+}

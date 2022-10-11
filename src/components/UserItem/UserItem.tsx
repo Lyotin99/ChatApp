@@ -11,18 +11,21 @@ interface UserItemProps {
 		updatedAt: string;
 		username: string;
 	};
+	isGroupChat: boolean;
 }
 
-const UserItem = ({ user }: UserItemProps) => {
-	const { createUserChat } = useChatContext();
+const UserItem = ({ user, isGroupChat }: UserItemProps) => {
+	const { createUserChat, createGroupChat } = useChatContext();
 	const { getChatMessages } = useMessagesContext();
 	const navigate = useNavigate();
 
 	const createChatHandler = () => {
-		createUserChat(user._id).then((res) => {
-			getChatMessages(res._id);
-			navigate(`/chats/${res._id}`);
-		});
+		if (!isGroupChat) {
+			createUserChat(user._id).then((res) => {
+				getChatMessages(res._id);
+				navigate(`/chats/${res._id}`);
+			});
+		}
 	};
 
 	return (
