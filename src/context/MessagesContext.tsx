@@ -1,5 +1,4 @@
 import { createContext, useContext, useState } from "react";
-import { useAuthContext } from "./AuthContext";
 import {
 	getAllMessagesService,
 	sendMessageService,
@@ -19,18 +18,14 @@ export const useMessagesContext = () => useContext(MessagesContext);
 const MessagesProvider = ({ children }: { children: React.ReactNode }) => {
 	const [messages, setMessages] = useState<Message[]>([] as Message[]);
 
-	const {
-		user: { token },
-	} = useAuthContext();
-
 	const getChatMessages = (chatId: string) => {
-		getAllMessagesService(chatId, token).then((res) => {
+		getAllMessagesService(chatId).then((res) => {
 			setMessages(res.messages);
 		});
 	};
 
 	const postMessage = (content: string, chatId: string) => {
-		sendMessageService(chatId, content, token).then((res) => {
+		sendMessageService(chatId, content).then((res) => {
 			res.message && setMessages([...messages, res.message]);
 		});
 	};

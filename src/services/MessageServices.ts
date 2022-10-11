@@ -1,14 +1,10 @@
+import * as requester from "./requester";
+
 const messagesURL = "http://localhost:5000/api/v1/messages";
 
-export const getAllMessagesService = async (chatId: string, token: string) => {
+export const getAllMessagesService = async (chatId: string) => {
 	try {
-		const req = await fetch(`${messagesURL}/${chatId}`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-
-		const res = await req.json();
+		const res = await requester.get(`${messagesURL}/${chatId}`);
 
 		return res;
 	} catch (error) {
@@ -16,22 +12,11 @@ export const getAllMessagesService = async (chatId: string, token: string) => {
 	}
 };
 
-export const sendMessageService = async (
-	chatId: string,
-	content: string,
-	token: string
-) => {
+export const sendMessageService = async (chatId: string, content: string) => {
 	try {
-		const req = await fetch(`${messagesURL}/${chatId}`, {
-			method: "POST",
-			headers: {
-				Authorization: `Bearer ${token}`,
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ content }),
+		const res = await requester.post(`${messagesURL}/${chatId}`, {
+			content,
 		});
-
-		const res = await req.json();
 
 		return res;
 	} catch (error) {
