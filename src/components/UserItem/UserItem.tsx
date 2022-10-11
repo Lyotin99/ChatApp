@@ -15,7 +15,7 @@ interface UserItemProps {
 }
 
 const UserItem = ({ user, isGroupChat }: UserItemProps) => {
-	const { createUserChat, createGroupChat } = useChatContext();
+	const { createUserChat } = useChatContext();
 	const { getChatMessages } = useMessagesContext();
 	const navigate = useNavigate();
 
