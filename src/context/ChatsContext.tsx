@@ -32,11 +32,11 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 
 	useEffect(() => {
 		userId &&
-			fetchChats(token).then((res) => {
+			fetchChats().then((res) => {
 				setChats(res.chats);
 				setLoading(false);
 			});
-	}, [token, userId]);
+	}, [userId]);
 
 	const updateChatLatestMessage = (chatId: string, latestMessage: string) => {
 		setChats((oldChats) => {
@@ -50,7 +50,7 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 	};
 
 	const createUserChat = (userId: string) => {
-		const chat = createChat(userId, token)
+		const chat = createChat(userId)
 			.then((res) => {
 				const chat = chats.find((chat) => chat._id === res.chats._id);
 
@@ -74,32 +74,28 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 	const createGroupChat = (chatName: string, users: string[]) => {
 		const usersStringified = JSON.stringify(users);
 
-		const chat = createGroupChatService(
-			chatName,
-			usersStringified,
-			token
-		).then((res) => {
-			setChats([res.chats, ...chats]);
-			return res.chats;
-		});
+		const chat = createGroupChatService(chatName, usersStringified).then(
+			(res) => {
+				setChats([res.chats, ...chats]);
+				return res.chats;
+			}
+		);
 
 		return chat;
 	};
 
 	const updateGroupChat = (chatId: string, newChatName: string) => {
-		const chat = updateGroupChatService(chatId, newChatName, token).then(
-			(res) => {
-				setChats((chats) => {
-					return chats.map((chat) => {
-						if (chat && chat._id === chatId) {
-							return (chat = res.chat);
-						} else return chat;
-					});
+		const chat = updateGroupChatService(chatId, newChatName).then((res) => {
+			setChats((chats) => {
+				return chats.map((chat) => {
+					if (chat && chat._id === chatId) {
+						return (chat = res.chat);
+					} else return chat;
 				});
+			});
 
-				return res.chat;
-			}
-		);
+			return res.chat;
+		});
 
 		return chat;
 	};
