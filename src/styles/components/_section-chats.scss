@@ -23,6 +23,14 @@
         padding-bottom: 8rem;
     }
 
+    .section__messages-actions {
+        display: grid;
+        grid-template-columns: repeat(2,20rem);
+        justify-content: flex-end;
+        gap:2rem;
+        padding-bottom: 2rem;
+    }
+
     .section__users-head {
         display: grid;
         grid-template-columns: calc(100% - 20rem) 20rem;

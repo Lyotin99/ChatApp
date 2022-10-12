@@ -1,7 +1,24 @@
 import { motion } from "framer-motion";
+import { useChatContext } from "../../../context/ChatsContext";
 
-const DeleteModal = () => {
-	return (
+const DeleteModal = ({
+	isVisible,
+	isHidden,
+	id,
+}: {
+	isVisible: boolean;
+	isHidden: () => void;
+	id: string;
+}) => {
+	const { removeGroupChat } = useChatContext();
+
+	const deleteHandler = () => {
+		removeGroupChat(id).then(() => {
+			isHidden();
+		});
+	};
+
+	return isVisible ? (
 		<div className="modal-delete">
 			<motion.div
 				className="modal__bg"
@@ -14,7 +31,7 @@ const DeleteModal = () => {
 				className="modal__inner"
 				initial={{ y: "-100vh" }}
 				animate={{ y: 0 }}
-				transition={{ delay: 0.4 }}
+				transition={{ delay: 0.2 }}
 				exit={{ y: "-100vh" }}
 			>
 				<div className="modal__content">
@@ -22,13 +39,17 @@ const DeleteModal = () => {
 				</div>
 
 				<div className="modal__actions">
-					<button className="btn">Cancel</button>
+					<button className="btn" onClick={isHidden}>
+						Cancel
+					</button>
 
-					<button className="btn btn--delete">Delete</button>
+					<button className="btn btn--delete" onClick={deleteHandler}>
+						Delete
+					</button>
 				</div>
 			</motion.div>
 		</div>
-	);
+	) : null;
 };
 
 export default DeleteModal;

@@ -1,13 +1,22 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMessagesContext } from "../../../context/MessagesContext";
 import { Message } from "../../../utils/types";
 import SendMessage from "../SendMessage/SendMessage";
 import MessageItem from "../MessageItem/MessageItem";
 import DeleteModal from "../../Common/DeleteModal/DeleteModal";
+import { useChatContext } from "../../../context/ChatsContext";
 
 const Messages = ({ chatId }: { chatId: string }) => {
+	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const anchor = useRef<HTMLDivElement>(null);
 	const { messages } = useMessagesContext();
+	const { getOneChat } = useChatContext();
+
+	const isHidden = () => {
+		setIsVisible(false);
+	};
+
+	const chat = getOneChat(chatId);
 
 	useEffect(() => {
 		if (messages.length > 0) {
@@ -17,8 +26,26 @@ const Messages = ({ chatId }: { chatId: string }) => {
 		}
 	}, [messages]);
 
+	const groupActions = chat && chat.isGroupChat && (
+		<div className="section__messages-actions">
+			<button className="btn" onClick={() => setIsVisible(true)}>
+				Delete Chat
+			</button>
+
+			<DeleteModal
+				isVisible={isVisible}
+				isHidden={isHidden}
+				id={chatId}
+			/>
+
+			<button className="btn">Edit Chat</button>
+		</div>
+	);
+
 	return (
 		<div className="section__messages">
+			{groupActions}
+
 			<div className="messages">
 				{messages.length > 0
 					? messages.map((message: Message) => {
