@@ -14,12 +14,14 @@ const EditModal = ({
 
 	const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+		console.log(e);
 
 		const formData = new FormData(e.currentTarget);
 		const groupName = String(formData.get("groupName"));
 
 		if (groupName) {
 			updateGroupChat(id, groupName);
+			isHidden();
 			e.currentTarget.reset();
 		}
 	};
@@ -53,7 +55,11 @@ const EditModal = ({
 					</div>
 
 					<div className="modal__actions">
-						<button className="btn btn--orange" onClick={isHidden}>
+						<button
+							className="btn btn--orange"
+							type="button"
+							onClick={isHidden}
+						>
 							Cancel
 						</button>
 
