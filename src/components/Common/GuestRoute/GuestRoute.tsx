@@ -1,4 +1,4 @@
-import { useAuthContext } from "../../context/AuthContext";
+import { useAuthContext } from "../../../context/AuthContext";
 import { Navigate } from "react-router-dom";
 
 const GuestRoute = ({ children }: { children: JSX.Element }) => {

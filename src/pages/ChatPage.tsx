@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import ChatItem from "../components/ChatItem/ChatItem";
 import CreateGroupChat from "../components/CreateGroupChat/CreateGroupChat";
-import Messages from "../components/Messages/Messages";
+import Messages from "../components/MessagesData/Messages/Messages";
 import { useChatContext } from "../context/ChatsContext";
 
 const ChatPage = () => {

@@ -1,5 +1,5 @@
-import { useAuthContext } from "../../context/AuthContext";
-import { Message } from "../../utils/types";
+import { useAuthContext } from "../../../context/AuthContext";
+import { Message } from "../../../utils/types";
 
 interface MessageItemProps {
 	message: Message;

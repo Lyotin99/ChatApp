@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef } from "react";
-import { useMessagesContext } from "../../context/MessagesContext";
-import { useChatContext } from "../../context/ChatsContext";
+import { useMessagesContext } from "../../../context/MessagesContext";
+import { useChatContext } from "../../../context/ChatsContext";
 
 interface SendMessageProps {
 	chatId: string;

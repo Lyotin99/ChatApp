@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { useMessagesContext } from "../../context/MessagesContext";
-import { Message } from "../../utils/types";
+import { useMessagesContext } from "../../../context/MessagesContext";
+import { Message } from "../../../utils/types";
 import SendMessage from "../SendMessage/SendMessage";
 import MessageItem from "../MessageItem/MessageItem";
 
