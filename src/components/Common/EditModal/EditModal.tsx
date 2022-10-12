@@ -31,6 +31,7 @@ const EditModal = ({
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
+				onClick={isHidden}
 			></motion.div>
 
 			<motion.div
@@ -40,6 +41,10 @@ const EditModal = ({
 				transition={{ delay: 0.2 }}
 				exit={{ y: "-100vh" }}
 			>
+				<button className="modal__btn-close" onClick={isHidden}>
+					X
+				</button>
+
 				<form action="POST" onSubmit={submitHandler}>
 					<div className="modal__content">
 						<h5>Add new group name...</h5>

@@ -33,39 +33,41 @@ const Messages = ({ chatId }: { chatId: string }) => {
 		}
 	}, [messages]);
 
-	const groupActions = chat && chat.isGroupChat && (
-		<div className="section__messages-actions">
-			<button className="btn" onClick={() => setIsVisible(true)}>
-				Delete Chat
-			</button>
-
-			<DeleteModal
-				isVisible={isVisible}
-				isHidden={isHidden}
-				id={chatId}
-			/>
-
-			<button
-				className="btn"
-				onClick={() => setIsVisibleUpdateChat(true)}
-			>
-				Edit Chat
-			</button>
-
-			<EditModal
-				isVisible={isVisibleUpdateChat}
-				isHidden={isHiddenUpdateChat}
-				id={chatId}
-			/>
-		</div>
-	);
-
 	return (
 		<div className="section__messages">
-			{groupActions}
+			<div
+				className={`section__messages-actions ${
+					chat && chat.isGroupChat
+						? "section__messages-actions--group"
+						: ""
+				}`}
+			>
+				<button className="btn" onClick={() => setIsVisible(true)}>
+					Delete Chat
+				</button>
+
+				<DeleteModal
+					isVisible={isVisible}
+					isHidden={isHidden}
+					id={chatId}
+				/>
+
+				<button
+					className="btn"
+					onClick={() => setIsVisibleUpdateChat(true)}
+				>
+					Edit Chat
+				</button>
+
+				<EditModal
+					isVisible={isVisibleUpdateChat}
+					isHidden={isHiddenUpdateChat}
+					id={chatId}
+				/>
+			</div>
 
 			<div className="messages">
-				{messages.length > 0
+				{messages.length > 0 && chat
 					? messages.map((message: Message) => {
 							return (
 								<MessageItem
@@ -74,7 +76,7 @@ const Messages = ({ chatId }: { chatId: string }) => {
 								/>
 							);
 					  })
-					: "No messages"}
+					: ""}
 				<div ref={anchor}></div>
 			</div>
 

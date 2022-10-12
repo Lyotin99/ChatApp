@@ -25,6 +25,7 @@ const DeleteModal = ({
 				initial={{ opacity: 0 }}
 				animate={{ opacity: 1 }}
 				exit={{ opacity: 0 }}
+				onClick={isHidden}
 			></motion.div>
 
 			<motion.div
@@ -34,6 +35,10 @@ const DeleteModal = ({
 				transition={{ delay: 0.2 }}
 				exit={{ y: "-100vh" }}
 			>
+				<button className="modal__btn-close" onClick={isHidden}>
+					X
+				</button>
+
 				<div className="modal__content">
 					<h5>Are you sure you want to delete this group chat?</h5>
 				</div>

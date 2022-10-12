@@ -29,6 +29,11 @@
         justify-content: flex-end;
         gap:2rem;
         padding-bottom: 2rem;
+        display: none;
+    }
+
+    .section__messages-actions.section__messages-actions--group {
+        display: grid;
     }
 
     .section__users-head {

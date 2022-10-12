@@ -25,8 +25,9 @@ const ChatItem = ({
 	return (
 		<div
 			onClick={() => {
-				getChatMessages(_id);
-				navigate(`/chats/${_id}`);
+				getChatMessages(_id).then(() => {
+					navigate(`/chats/${_id}`);
+				});
 			}}
 			className="chat__inner"
 		>

@@ -7,7 +7,7 @@ import { Message } from "../utils/types";
 
 interface MessagesContextData {
 	messages: Message[];
-	getChatMessages: (chatId: string) => void;
+	getChatMessages: (chatId: string) => Promise<any>;
 	postMessage: (content: string, chatId: string) => void;
 }
 
@@ -19,9 +19,11 @@ const MessagesProvider = ({ children }: { children: React.ReactNode }) => {
 	const [messages, setMessages] = useState<Message[]>([] as Message[]);
 
 	const getChatMessages = (chatId: string) => {
-		getAllMessagesService(chatId).then((res) => {
+		const chat = getAllMessagesService(chatId).then((res) => {
 			setMessages(res.messages);
 		});
+
+		return chat;
 	};
 
 	const postMessage = (content: string, chatId: string) => {
