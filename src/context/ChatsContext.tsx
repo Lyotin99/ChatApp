@@ -16,7 +16,8 @@ interface ChatContextData {
 	createUserChat: (userId: string) => Promise<any>;
 	createGroupChat: (chatName: string, users: string[]) => Promise<any>;
 	updateGroupChat: (chatId: string, newChatName: string) => void;
-	removeGroupChat: (chatId: string) => void;
+	removeGroupChat: (chatId: string) => Promise<any>;
+	getOneChat: (chatId: string) => Chat | undefined;
 }
 
 const ChatsContext = createContext({} as ChatContextData);
@@ -37,6 +38,12 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 				setLoading(false);
 			});
 	}, [userId]);
+
+	const getOneChat = (chatId: string) => {
+		const chat = chats.find((chatItem: Chat) => chatItem._id === chatId);
+
+		return chat;
+	};
 
 	const updateChatLatestMessage = (
 		chatId: string,
@@ -110,11 +117,13 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 	};
 
 	const removeGroupChat = (chatId: string) => {
-		removeGroupChatService(chatId, token).then((res) => {
+		const chat = removeGroupChatService(chatId, token).then((res) => {
 			setChats((oldChats) => {
 				return oldChats.filter((chat) => chatId !== chat._id);
 			});
 		});
+
+		return chat;
 	};
 
 	return (
@@ -127,6 +136,7 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 				createUserChat,
 				removeGroupChat,
 				updateGroupChat,
+				getOneChat,
 			}}
 		>
 			{children}
