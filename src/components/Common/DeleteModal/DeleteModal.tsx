@@ -19,7 +19,7 @@ const DeleteModal = ({
 	};
 
 	return isVisible ? (
-		<div className="modal-delete">
+		<div className="modal">
 			<motion.div
 				className="modal__bg"
 				initial={{ opacity: 0 }}

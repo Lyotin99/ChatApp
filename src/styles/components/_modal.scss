@@ -1,4 +1,4 @@
-.modal-delete {
+.modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -38,5 +38,11 @@
 
     h5 {
         font-weight: 500;
+    }
+
+    input {
+        padding: 0 1.5rem;
+        border-radius: 1.2rem;
+        height: 4rem;
     }
 }

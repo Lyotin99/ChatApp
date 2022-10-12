@@ -5,15 +5,22 @@ import SendMessage from "../SendMessage/SendMessage";
 import MessageItem from "../MessageItem/MessageItem";
 import DeleteModal from "../../Common/DeleteModal/DeleteModal";
 import { useChatContext } from "../../../context/ChatsContext";
+import EditModal from "../../Common/EditModal/EditModal";
 
 const Messages = ({ chatId }: { chatId: string }) => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
+	const [isVisibleUpdateChat, setIsVisibleUpdateChat] =
+		useState<boolean>(false);
 	const anchor = useRef<HTMLDivElement>(null);
 	const { messages } = useMessagesContext();
 	const { getOneChat } = useChatContext();
 
 	const isHidden = () => {
 		setIsVisible(false);
+	};
+
+	const isHiddenUpdateChat = () => {
+		setIsVisibleUpdateChat(false);
 	};
 
 	const chat = getOneChat(chatId);
@@ -38,7 +45,18 @@ const Messages = ({ chatId }: { chatId: string }) => {
 				id={chatId}
 			/>
 
-			<button className="btn">Edit Chat</button>
+			<button
+				className="btn"
+				onClick={() => setIsVisibleUpdateChat(true)}
+			>
+				Edit Chat
+			</button>
+
+			<EditModal
+				isVisible={isVisibleUpdateChat}
+				isHidden={isHiddenUpdateChat}
+				id={chatId}
+			/>
 		</div>
 	);
 
