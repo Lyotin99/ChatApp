@@ -3,6 +3,7 @@ import { useMessagesContext } from "../../../context/MessagesContext";
 import { Message } from "../../../utils/types";
 import SendMessage from "../SendMessage/SendMessage";
 import MessageItem from "../MessageItem/MessageItem";
+import DeleteModal from "../../Common/DeleteModal/DeleteModal";
 
 const Messages = ({ chatId }: { chatId: string }) => {
 	const anchor = useRef<HTMLDivElement>(null);

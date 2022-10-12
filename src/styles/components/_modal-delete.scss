@@ -1,0 +1,42 @@
+.modal-delete {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+
+    .modal__bg {
+        background-color: rgba($color: #000000, $alpha: .3);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .modal__inner {
+        max-width: 60rem;
+        width: 100%;
+        margin: 30rem auto;
+        background-color: $c-white;
+        padding: 4rem 2rem;
+        border-radius: 1.2rem;
+        text-align: center;
+    }
+
+    .modal__content {
+        padding-bottom: 3rem;
+    }
+
+    .modal__actions {
+        display: grid;
+        grid-template-columns: repeat(2,10rem);
+        justify-content: center;
+        gap: 2rem;
+    }
+
+    h5 {
+        font-weight: 500;
+    }
+}

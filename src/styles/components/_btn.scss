@@ -26,3 +26,13 @@
         border-color: $c-base;
     }
 }
+
+.btn.btn--delete {
+    background-color: red;
+
+    &:hover {
+        background: $c-white;
+        color: $c-base;
+        border-color: $c-base;
+    }
+}
