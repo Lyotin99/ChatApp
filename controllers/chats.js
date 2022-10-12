@@ -100,7 +100,7 @@ const createGroupChat = async (req, res) => {
 			.populate("users", "-password")
 			.populate("groupAdmin", "-password");
 
-		res.status(200).json(fullGroupChat);
+		res.status(200).json({ chats: fullGroupChat });
 	} catch (error) {
 		res.status(400);
 		throw new Error(error.message);
@@ -121,7 +121,8 @@ const renameGroup = async (req, res) => {
 		}
 	)
 		.populate("users", "-password")
-		.populate("groupAdmin", "-password");
+		.populate("groupAdmin", "-password")
+		.populate("latestMessage");
 
 	if (!newGroup) {
 		return res.status(404).json({ msg: "Not Found" });
