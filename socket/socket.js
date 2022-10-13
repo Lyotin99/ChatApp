@@ -23,8 +23,14 @@ const initSocket = (server) => {
 			console.log("User joined " + roomId);
 		});
 
+		socket.on("typing", (roomId) => socket.in(roomId).emit("typing"));
+
+		socket.on("stop typing", (roomId) =>
+			socket.in(roomId).emit("stop typing")
+		);
+
 		socket.on("new message", (newMessageRecieved) => {
-			var chat = newMessageRecieved.chat;
+			let chat = newMessageRecieved.chat;
 
 			if (!chat.users) return console.log("chat.users not defined");
 
@@ -36,6 +42,11 @@ const initSocket = (server) => {
 						.emit("message received", newMessageRecieved);
 				}
 			});
+		});
+
+		socket.off("setup", () => {
+			console.log("User Disconnected");
+			socket.leave(userData._id);
 		});
 	});
 };
