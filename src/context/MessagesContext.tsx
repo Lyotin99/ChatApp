@@ -8,7 +8,8 @@ import { Message } from "../utils/types";
 interface MessagesContextData {
 	messages: Message[];
 	getChatMessages: (chatId: string) => Promise<any>;
-	postMessage: (content: string, chatId: string) => void;
+	postMessage: (content: string, chatId: string) => Promise<any>;
+	addMessageToChat: (message: Message) => void;
 }
 
 const MessagesContext = createContext({} as MessagesContextData);
@@ -26,15 +27,23 @@ const MessagesProvider = ({ children }: { children: React.ReactNode }) => {
 		return chat;
 	};
 
+	const addMessageToChat = (message: Message) => {
+		setMessages([...messages, message]);
+	};
+
 	const postMessage = (content: string, chatId: string) => {
-		sendMessageService(chatId, content).then((res) => {
+		const message = sendMessageService(chatId, content).then((res) => {
 			res.message && setMessages([...messages, res.message]);
+
+			return res;
 		});
+
+		return message;
 	};
 
 	return (
 		<MessagesContext.Provider
-			value={{ messages, getChatMessages, postMessage }}
+			value={{ messages, getChatMessages, postMessage, addMessageToChat }}
 		>
 			{children}
 		</MessagesContext.Provider>
