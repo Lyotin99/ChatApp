@@ -33,7 +33,7 @@ const ChatsProvider = ({ children }: { children: React.ReactNode }) => {
 
 	useEffect(() => {
 		userId &&
-			fetchChats().then((res) => {
+			fetchChats(token).then((res) => {
 				setChats(res.chats);
 				setLoading(false);
 			});
