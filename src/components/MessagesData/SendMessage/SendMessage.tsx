@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useRef } from "react";
 import { useMessagesContext } from "../../../context/MessagesContext";
 import { useChatContext } from "../../../context/ChatsContext";
+import { socket } from "../../../utils/socket";
 
 interface SendMessageProps {
 	chatId: string;
@@ -8,7 +9,7 @@ interface SendMessageProps {
 
 const SendMessage = ({ chatId }: SendMessageProps) => {
 	const messageForm = useRef<HTMLInputElement>(null);
-	const { messages, postMessage } = useMessagesContext();
+	const { messages, postMessage, addMessageToChat } = useMessagesContext();
 	const { updateChatLatestMessage } = useChatContext();
 
 	useEffect(() => {
@@ -21,7 +22,11 @@ const SendMessage = ({ chatId }: SendMessageProps) => {
 		const content = String(formData.get("content"));
 
 		if (content.trim()) {
-			postMessage(content, chatId);
+			postMessage(content, chatId).then((res) => {
+				socket.emit("new message", res.message);
+
+				addMessageToChat(res.message);
+			});
 			updateChatLatestMessage(chatId, content);
 			e.currentTarget.reset();
 		}

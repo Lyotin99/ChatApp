@@ -6,14 +6,24 @@ import MessageItem from "../MessageItem/MessageItem";
 import DeleteModal from "../../Common/DeleteModal/DeleteModal";
 import { useChatContext } from "../../../context/ChatsContext";
 import EditModal from "../../Common/EditModal/EditModal";
+import { useAuthContext } from "../../../context/AuthContext";
+import { socket } from "../../../utils/socket";
 
 const Messages = ({ chatId }: { chatId: string }) => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const [isVisibleUpdateChat, setIsVisibleUpdateChat] =
 		useState<boolean>(false);
+	const [socketConnected, setSocketConnected] = useState<boolean>(false);
 	const anchor = useRef<HTMLDivElement>(null);
-	const { messages } = useMessagesContext();
+	const { messages, addMessageToChat } = useMessagesContext();
+	const { user } = useAuthContext();
 	const { getOneChat } = useChatContext();
+	const chat = getOneChat(chatId);
+
+	useEffect(() => {
+		socket.emit("setup", user);
+		socket.on("connection", () => setSocketConnected(true));
+	}, [user]);
 
 	const isHidden = () => {
 		setIsVisible(false);
@@ -23,15 +33,21 @@ const Messages = ({ chatId }: { chatId: string }) => {
 		setIsVisibleUpdateChat(false);
 	};
 
-	const chat = getOneChat(chatId);
-
 	useEffect(() => {
 		if (messages.length > 0) {
 			anchor.current?.scrollIntoView({
 				behavior: "smooth",
 			});
 		}
-	}, [messages]);
+
+		socket.emit("join chat", chatId);
+	}, [messages, chatId]);
+
+	useEffect(() => {
+		socket.on("message received", (newMessageReceived) => {
+			addMessageToChat(newMessageReceived);
+		});
+	});
 
 	return (
 		<div className="section__messages">
