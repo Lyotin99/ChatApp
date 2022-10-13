@@ -7,6 +7,7 @@ import messagesRoute from "./routes/messages.js";
 import { config } from "dotenv";
 import cors from "cors";
 import authenticate from "./middlewares/authentication.js";
+import initSocket from "./socket/socket.js";
 
 const app = express();
 config();
@@ -24,8 +25,11 @@ const PORT = process.env.PORT || 5000;
 
 const start = async () => {
 	try {
-		app.listen(PORT, () => console.log(`Listen on port ${PORT}`));
 		await connectDb(process.env.MONGO_URI);
+		const server = app.listen(PORT, () =>
+			console.log(`Listen on port ${PORT}`)
+		);
+		initSocket(server);
 	} catch (e) {
 		console.log(e);
 	}
