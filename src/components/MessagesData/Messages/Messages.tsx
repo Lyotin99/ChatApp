@@ -13,7 +13,6 @@ const Messages = ({ chatId }: { chatId: string }) => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const [isVisibleUpdateChat, setIsVisibleUpdateChat] =
 		useState<boolean>(false);
-	const [socketConnected, setSocketConnected] = useState<boolean>(false);
 	const anchor = useRef<HTMLDivElement>(null);
 	const { messages, addMessageToChat } = useMessagesContext();
 	const { user } = useAuthContext();
@@ -22,16 +21,7 @@ const Messages = ({ chatId }: { chatId: string }) => {
 
 	useEffect(() => {
 		socket.emit("setup", user);
-		socket.on("connection", () => setSocketConnected(true));
 	}, [user]);
-
-	const isHidden = () => {
-		setIsVisible(false);
-	};
-
-	const isHiddenUpdateChat = () => {
-		setIsVisibleUpdateChat(false);
-	};
 
 	useEffect(() => {
 		if (messages.length > 0) {
@@ -40,7 +30,7 @@ const Messages = ({ chatId }: { chatId: string }) => {
 			});
 		}
 
-		socket.emit("join chat", chatId);
+		socket.emit("join room", chatId);
 	}, [messages, chatId]);
 
 	useEffect(() => {
@@ -48,6 +38,14 @@ const Messages = ({ chatId }: { chatId: string }) => {
 			addMessageToChat(newMessageReceived);
 		});
 	});
+
+	const isHidden = () => {
+		setIsVisible(false);
+	};
+
+	const isHiddenUpdateChat = () => {
+		setIsVisibleUpdateChat(false);
+	};
 
 	return (
 		<div className="section__messages">
