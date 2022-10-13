@@ -1,11 +1,16 @@
-export const requester = async <T>(method: string, url: string, data?: T) => {
+export const requester = async <T>(
+	method: string,
+	url: string,
+	data?: T,
+	token?: string
+) => {
 	try {
 		let req = null;
 
 		if (method === "GET") {
 			req = await fetch(url, {
 				headers: {
-					Authorization: `Bearer ${getToken()}`,
+					Authorization: `Bearer ${!getToken() ? token : getToken()}`,
 					"Content-Type": "application/json",
 				},
 			});

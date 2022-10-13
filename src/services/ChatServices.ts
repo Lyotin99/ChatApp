@@ -2,9 +2,9 @@ import * as requester from "./requester";
 
 const chatBaseURL = "http://localhost:5000/api/v1/chats";
 
-export const fetchChats = async () => {
+export const fetchChats = async (token: string) => {
 	try {
-		const res = await requester.get(chatBaseURL);
+		const res = await requester.get(chatBaseURL, "", token);
 
 		return res;
 	} catch (error) {
