@@ -1,18 +1,26 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import ChatItem from "../components/ChatItem/ChatItem";
 import CreateGroupChat from "../components/CreateGroupChat/CreateGroupChat";
 import Messages from "../components/MessagesData/Messages/Messages";
 import { useChatContext } from "../context/ChatsContext";
+import { socket } from "../utils/socket";
 
 const ChatPage = () => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const { chats } = useChatContext();
 	const { chatId } = useParams();
+	const ref = useRef("");
 
 	const hideModalHandler = () => {
 		setIsVisible(false);
 	};
+
+	useEffect(() => {
+		if (ref.current) {
+			socket.emit("leave room", ref.current);
+		}
+	}, [chatId]);
 
 	return (
 		<section className="section-chats">
@@ -43,6 +51,10 @@ const ChatPage = () => {
 									chats.map((chat) => {
 										return (
 											<div
+												onClick={() => {
+													if (chatId)
+														ref.current = chatId;
+												}}
 												className={`chat ${
 													chat._id === chatId
 														? "is-active"
