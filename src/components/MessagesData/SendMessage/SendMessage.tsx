@@ -3,24 +3,34 @@ import { useMessagesContext } from "../../../context/MessagesContext";
 import { useChatContext } from "../../../context/ChatsContext";
 import { socket } from "../../../utils/socket";
 import loader from "../../../assets/messageLoader.svg";
+import { useAuthContext } from "../../../context/AuthContext";
 
 interface SendMessageProps {
 	chatId: string;
 }
 
 const SendMessage = ({ chatId }: SendMessageProps) => {
-	const [socketConnected, setSocketConnected] = useState<boolean>(false);
 	const [isTyping, setIsTyping] = useState<boolean>(false);
 	const [typing, setTyping] = useState<boolean>(false);
 	const messageForm = useRef<HTMLInputElement>(null);
 	const { messages, postMessage, addMessageToChat } = useMessagesContext();
+	const { userConnected } = useAuthContext();
 	const { updateChatLatestMessage } = useChatContext();
 
 	useEffect(() => {
-		socket.on("connected", () => setSocketConnected(true));
-		socket.on("typing", () => setIsTyping(true));
-		socket.on("stop typing", () => setIsTyping(false));
-	}, []);
+		socket.on("typing", (roomId) => {
+			if (roomId === chatId) {
+				setIsTyping(true);
+				console.log(roomId, " ", chatId);
+			}
+		});
+		socket.on("stop typing", (roomId) => {
+			if (roomId === chatId) {
+				setIsTyping(false);
+				console.log(roomId, " ", chatId);
+			}
+		});
+	}, [chatId]);
 
 	useEffect(() => {
 		messages && messageForm.current?.focus();
@@ -46,7 +56,7 @@ const SendMessage = ({ chatId }: SendMessageProps) => {
 	};
 
 	const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (!socketConnected) return;
+		if (!userConnected) return;
 
 		if (!typing) {
 			setTyping(true);
@@ -56,12 +66,16 @@ const SendMessage = ({ chatId }: SendMessageProps) => {
 		setTimeout(() => {
 			setTyping(false);
 			socket.emit("stop typing", chatId);
-		}, 3000);
+		}, 500);
 	};
 
 	return (
 		<form onSubmit={submitHandler}>
-			{isTyping ? <img src={loader} style={{ width: 60 }} /> : ""}
+			{isTyping ? (
+				<img src={loader} alt="Loader" style={{ width: 60 }} />
+			) : (
+				""
+			)}
 			<input
 				ref={messageForm}
 				type="text"

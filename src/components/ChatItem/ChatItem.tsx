@@ -2,6 +2,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import { useMessagesContext } from "../../context/MessagesContext";
 import { Message, User } from "../../utils/types";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../../utils/socket";
 
 interface ChatItemProps {
 	chat: {
@@ -27,6 +28,7 @@ const ChatItem = ({
 			onClick={() => {
 				getChatMessages(_id).then(() => {
 					navigate(`/chats/${_id}`);
+					socket.emit("join room", _id);
 				});
 			}}
 			className="chat__inner"

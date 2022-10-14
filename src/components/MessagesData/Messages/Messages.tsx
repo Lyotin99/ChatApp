@@ -6,7 +6,6 @@ import MessageItem from "../MessageItem/MessageItem";
 import DeleteModal from "../../Common/DeleteModal/DeleteModal";
 import { useChatContext } from "../../../context/ChatsContext";
 import EditModal from "../../Common/EditModal/EditModal";
-import { useAuthContext } from "../../../context/AuthContext";
 import { socket } from "../../../utils/socket";
 
 const Messages = ({ chatId }: { chatId: string }) => {
@@ -15,13 +14,8 @@ const Messages = ({ chatId }: { chatId: string }) => {
 		useState<boolean>(false);
 	const anchor = useRef<HTMLDivElement>(null);
 	const { messages, addMessageToChat } = useMessagesContext();
-	const { user } = useAuthContext();
 	const { getOneChat } = useChatContext();
 	const chat = getOneChat(chatId);
-
-	useEffect(() => {
-		socket.emit("setup", user);
-	}, [user]);
 
 	useEffect(() => {
 		if (messages.length > 0) {
@@ -29,13 +23,19 @@ const Messages = ({ chatId }: { chatId: string }) => {
 				behavior: "smooth",
 			});
 		}
-
-		socket.emit("join room", chatId);
 	}, [messages, chatId]);
 
 	useEffect(() => {
 		socket.on("message received", (newMessageReceived) => {
-			addMessageToChat(newMessageReceived);
+			console.log(
+				"Chat " + chatId,
+				"NewMessageId " + newMessageReceived.chat._id
+			);
+			if (chatId && newMessageReceived.chat._id !== chatId) {
+				console.log("Not chat");
+			} else {
+				addMessageToChat(newMessageReceived);
+			}
 		});
 	});
 
