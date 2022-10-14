@@ -1,10 +1,12 @@
-import { useContext, createContext } from "react";
+import { useContext, createContext, useEffect, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { socket } from "../utils/socket";
 
 interface AuthContextData {
 	login: (userData: User) => void;
 	logout: () => void;
 	user: User;
+	userConnected: boolean;
 }
 
 interface User {
@@ -25,7 +27,7 @@ export const AuthContext = createContext({} as AuthContextData);
 
 const AuthProvider = ({ children }: { children: JSX.Element }) => {
 	const [user, setUser] = useLocalStorage<User>("user", initialUser);
-
+	const [socketConnected, setSocketConnected] = useState<boolean>(false);
 	const login = (userData: User) => {
 		setUser(userData);
 	};
@@ -34,8 +36,15 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
 		setUser(initialUser);
 	};
 
+	useEffect(() => {
+		socket.emit("setup", user);
+		socket.on("connected", () => setSocketConnected(true));
+	}, [user]);
+
 	return (
-		<AuthContext.Provider value={{ login, logout, user }}>
+		<AuthContext.Provider
+			value={{ login, logout, user, userConnected: socketConnected }}
+		>
 			{children}
 		</AuthContext.Provider>
 	);
