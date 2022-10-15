@@ -3,7 +3,7 @@ import { useMessagesContext } from "../../../context/MessagesContext";
 import { useChatContext } from "../../../context/ChatsContext";
 import { socket } from "../../../utils/socket";
 import loader from "../../../assets/messageLoader.svg";
-import { useAuthContext } from "../../../context/AuthContext";
+import { AuthContext, useAuthContext } from "../../../context/AuthContext";
 
 interface SendMessageProps {
 	chatId: string;
@@ -14,7 +14,7 @@ const SendMessage = ({ chatId }: SendMessageProps) => {
 	const [typing, setTyping] = useState<boolean>(false);
 	const messageForm = useRef<HTMLInputElement>(null);
 	const { messages, postMessage, addMessageToChat } = useMessagesContext();
-	const { userConnected } = useAuthContext();
+	const { socketConnected } = useAuthContext();
 	const { updateChatLatestMessage } = useChatContext();
 
 	useEffect(() => {
@@ -56,7 +56,7 @@ const SendMessage = ({ chatId }: SendMessageProps) => {
 	};
 
 	const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-		if (!userConnected) return;
+		if (!socketConnected) return;
 
 		if (!typing) {
 			setTyping(true);

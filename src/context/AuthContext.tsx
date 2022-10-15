@@ -6,7 +6,8 @@ interface AuthContextData {
 	login: (userData: User) => void;
 	logout: () => void;
 	user: User;
-	userConnected: boolean;
+	usersConnected: [string];
+	socketConnected: boolean;
 }
 
 interface User {
@@ -28,22 +29,40 @@ export const AuthContext = createContext({} as AuthContextData);
 const AuthProvider = ({ children }: { children: JSX.Element }) => {
 	const [user, setUser] = useLocalStorage<User>("user", initialUser);
 	const [socketConnected, setSocketConnected] = useState<boolean>(false);
+	const [usersConnected, setUsersConnected] = useState<any>([]);
 	const login = (userData: User) => {
 		setUser(userData);
 	};
 
 	const logout = () => {
 		setUser(initialUser);
+		console.log("Disconnect");
+		socket.emit("logout");
 	};
 
 	useEffect(() => {
 		socket.emit("setup", user);
-		socket.on("connected", () => setSocketConnected(true));
+		socket.on("connected", () => {
+			if (user.userId) socket.emit("login", user);
+			setSocketConnected(true);
+		});
 	}, [user]);
+
+	useEffect(() => {
+		socket.on("user connected", (users) => {
+			setUsersConnected(Object.values(users));
+		});
+	});
 
 	return (
 		<AuthContext.Provider
-			value={{ login, logout, user, userConnected: socketConnected }}
+			value={{
+				login,
+				logout,
+				user,
+				usersConnected,
+				socketConnected,
+			}}
 		>
 			{children}
 		</AuthContext.Provider>

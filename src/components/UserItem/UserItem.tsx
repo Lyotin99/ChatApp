@@ -1,6 +1,8 @@
 import { useChatContext } from "../../context/ChatsContext";
 import { useNavigate } from "react-router-dom";
 import { useMessagesContext } from "../../context/MessagesContext";
+import { useAuthContext } from "../../context/AuthContext";
+import { useEffect } from "react";
 
 interface UserItemProps {
 	user: {
@@ -15,6 +17,10 @@ interface UserItemProps {
 }
 
 const UserItem = ({ user, isGroupChat }: UserItemProps) => {
+	const {
+		usersConnected,
+		user: { userId },
+	} = useAuthContext();
 	const { createUserChat } = useChatContext();
 	const { getChatMessages } = useMessagesContext();
 	const navigate = useNavigate();
@@ -27,6 +33,14 @@ const UserItem = ({ user, isGroupChat }: UserItemProps) => {
 			});
 		}
 	};
+
+	const isConnected = usersConnected.find((userId) => {
+		if (userId === user._id) {
+			return true;
+		} else return false;
+	});
+
+	console.log(isConnected);
 
 	return (
 		<div className="user__search-inner" onClick={createChatHandler}>
@@ -41,6 +55,8 @@ const UserItem = ({ user, isGroupChat }: UserItemProps) => {
 					<small>
 						<strong>Email:</strong> {user.email}
 					</small>
+
+					{isConnected === user._id ? "Online" : "Offline"}
 				</p>
 			</div>
 		</div>
