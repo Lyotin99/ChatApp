@@ -8,6 +8,7 @@ const initSocket = (server) => {
 		},
 	});
 
+	const users = {};
 	io.on("connection", (socket) => {
 		console.log("Connected to socket.io");
 
@@ -17,16 +18,39 @@ const initSocket = (server) => {
 			socket.emit("connected");
 		});
 
+		socket.on("login", (data) => {
+			console.log("a user " + data.userId + " connected");
+			// saving userId to object with socket ID
+			users[socket.id] = data.userId;
+			// console.log(users);
+			socket.emit("user connected", users);
+		});
+
+		socket.on("logout", () => {
+			console.log("user " + users[socket.id] + " disconnected");
+			// remove saved socket from users object
+			delete users[socket.id];
+		});
+
 		socket.on("join room", (roomId) => {
 			socket.join(roomId);
 
 			console.log("User joined " + roomId);
 		});
 
-		socket.on("typing", (roomId) => socket.in(roomId).emit("typing"));
+		socket.on("leave room", (roomId) => {
+			socket.leave(roomId);
+
+			console.log("User left " + roomId);
+		});
+
+		socket.on("typing", (roomId) => {
+			console.log("Typing in chat: " + roomId);
+			socket.to(roomId).emit("typing", roomId);
+		});
 
 		socket.on("stop typing", (roomId) =>
-			socket.in(roomId).emit("stop typing")
+			socket.to(roomId).emit("stop typing", roomId)
 		);
 
 		socket.on("new message", (newMessageRecieved) => {
