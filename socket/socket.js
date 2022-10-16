@@ -15,21 +15,29 @@ const initSocket = (server) => {
 		socket.on("setup", (userData) => {
 			socket.join(userData.userId);
 
-			socket.emit("connected");
+			socket.broadcast.emit("connected");
 		});
 
 		socket.on("login", (data) => {
 			console.log("a user " + data.userId + " connected");
 			// saving userId to object with socket ID
 			users[socket.id] = data.userId;
-			// console.log(users);
-			socket.emit("user connected", users);
+			console.log(users);
+			socket.broadcast.emit("user connected", users);
 		});
 
-		socket.on("logout", () => {
-			console.log("user " + users[socket.id] + " disconnected");
-			// remove saved socket from users object
+		socket.on("disconnect", () => {
+			console.log("User disconnected");
+
 			delete users[socket.id];
+		});
+
+		socket.on("logout", (userId) => {
+			console.log("User logout");
+			delete users[socket.id];
+			socket.broadcast.emit("user logout", users);
+
+			socket.disconnect();
 		});
 
 		socket.on("join room", (roomId) => {
