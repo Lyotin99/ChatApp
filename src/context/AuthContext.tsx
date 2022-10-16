@@ -32,23 +32,33 @@ const AuthProvider = ({ children }: { children: JSX.Element }) => {
 	const [usersConnected, setUsersConnected] = useState<any>([]);
 	const login = (userData: User) => {
 		setUser(userData);
+		socket.emit("login", userData);
+		socket.connect();
 	};
 
 	const logout = () => {
 		setUser(initialUser);
-		console.log("Disconnect");
-		socket.emit("logout");
+		socket.emit("logout", user.userId);
+		socket.disconnect();
 	};
 
 	useEffect(() => {
 		socket.emit("setup", user);
+
 		socket.on("connected", () => {
-			if (user.userId) socket.emit("login", user);
-			setSocketConnected(true);
+			if (user.userId) {
+				socket.emit("login", user);
+				setSocketConnected(true);
+			}
 		});
 	}, [user]);
 
 	useEffect(() => {
+		socket.on("user logout", (users) => {
+			setUsersConnected(Object.values(users));
+			setSocketConnected(false);
+		});
+
 		socket.on("user connected", (users) => {
 			setUsersConnected(Object.values(users));
 		});
