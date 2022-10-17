@@ -9,7 +9,7 @@ interface MessagesContextData {
 	messages: Message[];
 	getChatMessages: (chatId: string) => Promise<any>;
 	postMessage: (content: string, chatId: string) => Promise<any>;
-	addMessageToChat: (message: Message) => void;
+	addMessageToChat: (chatId: string, message: Message) => void;
 }
 
 const MessagesContext = createContext({} as MessagesContextData);
@@ -27,8 +27,9 @@ const MessagesProvider = ({ children }: { children: React.ReactNode }) => {
 		return chat;
 	};
 
-	const addMessageToChat = (message: Message) => {
-		setMessages([...messages, message]);
+	const addMessageToChat = (chatId: string, message: Message) => {
+		console.log(chatId + "-----------------" + message.chat._id);
+		if (chatId === message.chat._id) setMessages([...messages, message]);
 	};
 
 	const postMessage = (content: string, chatId: string) => {

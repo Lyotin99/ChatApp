@@ -8,6 +8,7 @@ import { socket } from "../utils/socket";
 
 const ChatPage = () => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
+	const [selectedChat, setSelectedChat] = useState<string>("");
 	const { chats } = useChatContext();
 	const { chatId } = useParams();
 	const ref = useRef("");
@@ -54,6 +55,13 @@ const ChatPage = () => {
 												onClick={() => {
 													if (chatId)
 														ref.current = chatId;
+
+													socket.emit(
+														"join room",
+														chat._id
+													);
+
+													setSelectedChat(chat._id);
 												}}
 												className={`chat ${
 													chat._id === chatId
@@ -70,7 +78,9 @@ const ChatPage = () => {
 						</div>
 					</div>
 
-					{chatId && <Messages chatId={chatId} />}
+					{chatId && (
+						<Messages chatId={chatId} selectedChat={selectedChat} />
+					)}
 				</div>
 			</div>
 		</section>

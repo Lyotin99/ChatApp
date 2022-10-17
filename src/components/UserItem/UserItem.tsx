@@ -17,10 +17,7 @@ interface UserItemProps {
 }
 
 const UserItem = ({ user, isGroupChat }: UserItemProps) => {
-	const {
-		usersConnected,
-		user: { userId },
-	} = useAuthContext();
+	const { usersConnected } = useAuthContext();
 	const { createUserChat } = useChatContext();
 	const { getChatMessages } = useMessagesContext();
 	const navigate = useNavigate();
@@ -40,12 +37,16 @@ const UserItem = ({ user, isGroupChat }: UserItemProps) => {
 		} else return false;
 	});
 
-	console.log(isConnected);
-
 	return (
 		<div className="user__search-inner" onClick={createChatHandler}>
 			<div className="user__search-img">
 				<img src={user.photo} alt={user.username} />
+
+				<div
+					className={`user__status ${
+						isConnected === user._id ? "is-connected" : ""
+					}`}
+				></div>
 			</div>
 
 			<div className="user__search-content">
@@ -55,8 +56,6 @@ const UserItem = ({ user, isGroupChat }: UserItemProps) => {
 					<small>
 						<strong>Email:</strong> {user.email}
 					</small>
-
-					{isConnected === user._id ? "Online" : "Offline"}
 				</p>
 			</div>
 		</div>

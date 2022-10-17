@@ -3,7 +3,7 @@ import { useMessagesContext } from "../../../context/MessagesContext";
 import { useChatContext } from "../../../context/ChatsContext";
 import { socket } from "../../../utils/socket";
 import loader from "../../../assets/messageLoader.svg";
-import { AuthContext, useAuthContext } from "../../../context/AuthContext";
+import { useAuthContext } from "../../../context/AuthContext";
 
 interface SendMessageProps {
 	chatId: string;
@@ -45,7 +45,7 @@ const SendMessage = ({ chatId }: SendMessageProps) => {
 			postMessage(content, chatId).then((res) => {
 				socket.emit("new message", res.message);
 
-				addMessageToChat(res.message);
+				addMessageToChat(chatId, res.message);
 			});
 			setTyping(false);
 			socket.emit("stop typing", chatId);

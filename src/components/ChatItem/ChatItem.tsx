@@ -28,7 +28,6 @@ const ChatItem = ({
 			onClick={() => {
 				getChatMessages(_id).then(() => {
 					navigate(`/chats/${_id}`);
-					socket.emit("join room", _id);
 				});
 			}}
 			className="chat__inner"

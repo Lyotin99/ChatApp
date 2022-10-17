@@ -8,7 +8,13 @@ import { useChatContext } from "../../../context/ChatsContext";
 import EditModal from "../../Common/EditModal/EditModal";
 import { socket } from "../../../utils/socket";
 
-const Messages = ({ chatId }: { chatId: string }) => {
+const Messages = ({
+	chatId,
+	selectedChat,
+}: {
+	chatId: string;
+	selectedChat: string;
+}) => {
 	const [isVisible, setIsVisible] = useState<boolean>(false);
 	const [isVisibleUpdateChat, setIsVisibleUpdateChat] =
 		useState<boolean>(false);
@@ -27,14 +33,10 @@ const Messages = ({ chatId }: { chatId: string }) => {
 
 	useEffect(() => {
 		socket.on("message received", (newMessageReceived) => {
-			console.log(
-				"Chat " + chatId,
-				"NewMessageId " + newMessageReceived.chat._id
-			);
-			if (chatId && newMessageReceived.chat._id !== chatId) {
+			if (!chatId && newMessageReceived.chat._id !== chatId) {
 				console.log("Not chat");
 			} else {
-				addMessageToChat(newMessageReceived);
+				addMessageToChat(chatId, newMessageReceived);
 			}
 		});
 	});

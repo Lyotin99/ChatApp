@@ -11,7 +11,7 @@ export interface Message {
 	_id: string;
 	sender: User;
 	content: string;
-	chat: string;
+	chat: Chat;
 	createdAt: string;
 	updatedAt: string;
 }

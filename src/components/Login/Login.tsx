@@ -24,7 +24,6 @@ const Login = () => {
 					setError(res.msg);
 					setIsLoading(false);
 				} else {
-					console.log(res.data);
 					login(res.data);
 					navigate("/chats");
 				}

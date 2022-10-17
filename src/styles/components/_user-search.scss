@@ -37,6 +37,20 @@
         object-fit: cover;
     }
 
+    .user__status {
+        border: .2rem solid green;
+        border-radius: 50%;
+        position: absolute;
+        bottom: .2rem;
+        right: .2rem;
+        width: 1rem;
+        height: 1rem;
+    }
+
+    .user__status.is-connected {
+        background-color: green;
+    }
+
     p {
         margin-bottom: 1rem;
         font-size: 1.4rem;
