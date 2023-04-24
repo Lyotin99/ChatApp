@@ -3,16 +3,16 @@ export const chats = [
 		isGroupChat: false,
 		users: [
 			{
-				name: "John Doe",
+				name: "John",
 				email: "john@example.com",
 			},
 			{
-				name: "Piyush",
-				email: "piyush@example.com",
+				name: "Person",
+				email: "Person@example.com",
 			},
 		],
 		_id: "617a077e18c25468bc7c4dd4",
-		chatName: "John Doe",
+		chatName: "John",
 	},
 	{
 		isGroupChat: false,
@@ -22,8 +22,8 @@ export const chats = [
 				email: "guest@example.com",
 			},
 			{
-				name: "Piyush",
-				email: "piyush@example.com",
+				name: "Person",
+				email: "Person@example.com",
 			},
 		],
 		_id: "617a077e18c25468b27c4dd4",
@@ -37,8 +37,8 @@ export const chats = [
 				email: "anthony@example.com",
 			},
 			{
-				name: "Piyush",
-				email: "piyush@example.com",
+				name: "Person",
+				email: "Person@example.com",
 			},
 		],
 		_id: "617a077e18c2d468bc7c4dd4",
@@ -48,12 +48,12 @@ export const chats = [
 		isGroupChat: true,
 		users: [
 			{
-				name: "John Doe",
+				name: "John",
 				email: "jon@example.com",
 			},
 			{
-				name: "Piyush",
-				email: "piyush@example.com",
+				name: "Person",
+				email: "Person@example.com",
 			},
 			{
 				name: "Guest User",
@@ -75,8 +75,8 @@ export const chats = [
 				email: "jane@example.com",
 			},
 			{
-				name: "Piyush",
-				email: "piyush@example.com",
+				name: "Person",
+				email: "Person@example.com",
 			},
 		],
 		_id: "617a077e18c25468bc7cfdd4",
@@ -86,12 +86,12 @@ export const chats = [
 		isGroupChat: true,
 		users: [
 			{
-				name: "John Doe",
+				name: "John",
 				email: "jon@example.com",
 			},
 			{
-				name: "Piyush",
-				email: "piyush@example.com",
+				name: "Person",
+				email: "Person@example.com",
 			},
 			{
 				name: "Guest User",
