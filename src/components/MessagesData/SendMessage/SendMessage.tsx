@@ -30,7 +30,7 @@ const SendMessage = ({ chatId }: SendMessageProps) => {
 				console.log(roomId, " ", chatId);
 			}
 		});
-	}, [chatId]);
+	});
 
 	useEffect(() => {
 		messages && messageForm.current?.focus();
