@@ -1,6 +1,6 @@
 import * as requester from "./requester";
 
-const messagesURL = "http://localhost:5000/api/v1/messages";
+const messagesURL = "https://chatapp-api-j757.onrender.com/api/v1/messages";
 
 export const getAllMessagesService = async (chatId: string) => {
 	try {

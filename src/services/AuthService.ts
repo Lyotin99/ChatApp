@@ -1,4 +1,4 @@
-const baseURL = "http://localhost:5000/api/v1/auth";
+const baseURL = "https://chatapp-api-j757.onrender.com/api/v1/auth";
 
 interface UserLogin {
 	email: string;

@@ -28,7 +28,6 @@ const MessagesProvider = ({ children }: { children: React.ReactNode }) => {
 	};
 
 	const addMessageToChat = (chatId: string, message: Message) => {
-		console.log(chatId + "-----------------" + message.chat._id);
 		if (chatId === message.chat._id) setMessages([...messages, message]);
 	};
 

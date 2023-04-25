@@ -6,7 +6,7 @@ interface AuthContextData {
 	login: (userData: User) => void;
 	logout: () => void;
 	user: User;
-	usersConnected: [string];
+	usersConnected: string[];
 	socketConnected: boolean;
 }
 
@@ -29,7 +29,7 @@ export const AuthContext = createContext({} as AuthContextData);
 const AuthProvider = ({ children }: { children: JSX.Element }) => {
 	const [user, setUser] = useLocalStorage<User>("user", initialUser);
 	const [socketConnected, setSocketConnected] = useState<boolean>(false);
-	const [usersConnected, setUsersConnected] = useState<any>([]);
+	const [usersConnected, setUsersConnected] = useState<string[]>([]);
 	const login = (userData: User) => {
 		setUser(userData);
 		socket.emit("login", userData);

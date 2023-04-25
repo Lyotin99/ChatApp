@@ -1,6 +1,6 @@
 import * as requester from "./requester";
 
-const chatBaseURL = "http://localhost:5000/api/v1/chats";
+const chatBaseURL = "https://chatapp-api-j757.onrender.com/api/v1/chats";
 
 export const fetchChats = async (token: string) => {
 	try {
