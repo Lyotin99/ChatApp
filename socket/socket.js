@@ -4,7 +4,7 @@ const initSocket = (server) => {
 	const io = new Server(server, {
 		pingTimeout: 60000,
 		cors: {
-			origin: "https://chatapp-ghmr.onrender.com/",
+			origin: "https://chatapp-ghmr.onrender.com",
 		},
 	});
 
